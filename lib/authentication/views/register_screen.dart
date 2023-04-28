@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:rental_user/authentication/controllers/login_controller.dart';
-import 'package:rental_user/authentication/views/register_screen.dart';
+import 'package:rental_user/authentication/controllers/signup_controller.dart';
+import 'package:rental_user/authentication/views/login_screen.dart';
 import 'package:rental_user/custom_config/background.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    LoginController loginController = LoginController();
+    SignUpController signUpController = SignUpController();
 
     return Scaffold(
       body: Background(
@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: const Text(
-                "LOGIN",
+                "REGISTER",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF2661FA),
@@ -40,8 +40,18 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               alignment: Alignment.center,
               margin: const EdgeInsets.symmetric(horizontal: 40),
+              child: const TextField(
+                decoration: InputDecoration(labelText: 'Name'),
+              ),
+            ),
+            SizedBox(
+              height: size.height * 0.03,
+            ),
+            Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
-                controller: loginController.emailController,
+                controller: signUpController.emailController,
                 decoration: const InputDecoration(labelText: 'Email'),
               ),
             ),
@@ -52,20 +62,20 @@ class _LoginPageState extends State<LoginPage> {
               alignment: Alignment.center,
               margin: const EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
-                controller: loginController.passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
-                obscureText: true,
+                controller: signUpController.phoneController,
+                decoration: const InputDecoration(labelText: 'Phone Number'),
               ),
             ),
+            SizedBox(
+              height: size.height * 0.03,
+            ),
             Container(
-              alignment: Alignment.centerRight,
-              margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-              child: const Text(
-                'Forgot your password?',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color(0xFF2661FA),
-                ),
+              alignment: Alignment.center,
+              margin: const EdgeInsets.symmetric(horizontal: 40),
+              child: TextField(
+                controller: signUpController.passwordController,
+                decoration: const InputDecoration(labelText: 'Password'),
+                obscureText: true,
               ),
             ),
             SizedBox(
@@ -97,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   padding: const EdgeInsets.all(0),
                   child: const Text(
-                    'LOG IN',
+                    'SIGN UP',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
@@ -110,10 +120,10 @@ class _LoginPageState extends State<LoginPage> {
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => RegisterPage()));
+                      MaterialPageRoute(builder: (context) => LoginPage()));
                 },
                 child: const Text(
-                  "Don't have an Account? Sign up",
+                  "Already have an Account? Sign in",
                   style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
