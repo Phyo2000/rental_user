@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rental_user/authentication/controllers/login_controller.dart';
+import 'package:rental_user/authentication/controllers/password_validator.dart';
 import 'package:rental_user/authentication/views/register_screen.dart';
 import 'package:rental_user/custom_config/background.dart';
 
@@ -11,10 +13,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  LoginController loginController = LoginController();
+  bool obsecurePwd = true;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    LoginController loginController = LoginController();
 
     return Scaffold(
       body: Background(
@@ -37,24 +40,69 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: size.height * 0.03,
             ),
-            Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
-                controller: loginController.emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-              ),
-            ),
-            SizedBox(
-              height: size.height * 0.03,
-            ),
-            Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
-                controller: loginController.passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
-                obscureText: true,
+            Form(
+              key: loginController.loginFormKey,
+              child: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.symmetric(horizontal: 40),
+                    child: TextFormField(
+                      keyboardType: TextInputType.phone,
+                      controller: loginController.phoneController,
+                      decoration: const InputDecoration(
+                          labelText: 'Phone Number',
+                          prefixIcon: Icon(
+                            Icons.phone,
+                            color: Color(0xFF2661FA),
+                          )),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(11),
+                        // Limit the length to 10 digits
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.03,
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.symmetric(horizontal: 40),
+                    child: TextFormField(
+                      controller: loginController.passwordController,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        prefixIcon: const Icon(Icons.lock_outline),
+                        prefixIconColor: const Color(0xFF2661FA),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              obsecurePwd = !obsecurePwd;
+                            });
+                          },
+                          icon: obsecurePwd
+                              ? const Icon(
+                                  Icons.visibility_off_outlined,
+                                  color: Colors.black38,
+                                )
+                              : const Icon(
+                                  Icons.visibility_outlined,
+                                  color: Color(0xFF2661FA),
+                                ),
+                        ),
+                      ),
+                      obscureText: obsecurePwd,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.deny(
+                            RegExp('[ ]')), // Disallow spaces
+                        LengthLimitingTextInputFormatter(
+                            50), // Limit the length to 50 characters
+                        //PasswordValidator(),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             Container(
