@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rental_user/authentication/views/login_screen.dart';
+import 'package:rental_user/authentication/views/register_screen.dart';
+
+import 'home/views/home_page.dart';
 
 void main() {
   runApp(const RentalApp());
@@ -19,7 +22,12 @@ class RentalApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const LoginPage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const LoginPage(),
+        '/register': (context) => const RegisterPage(),
+        '/home': (context) => const HomePage(),
+      },
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rental_user/authentication/controllers/signup_controller.dart';
 import 'package:rental_user/authentication/views/login_screen.dart';
-import 'package:rental_user/custom_config/background.dart';
+import 'package:rental_user/authentication/custom_config/background.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -55,6 +55,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: Color(0xFF2661FA),
                           ),
                         ),
+                        onChanged: signUpController.setName,
+                        validator: signUpController.validateName,
                       ),
                     ),
                     SizedBox(
@@ -64,7 +66,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       alignment: Alignment.center,
                       margin: const EdgeInsets.symmetric(horizontal: 40),
                       child: TextFormField(
-                        controller: signUpController.phoneController,
                         keyboardType: TextInputType.phone,
                         decoration: const InputDecoration(
                           labelText: 'Phone',
@@ -78,52 +79,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           LengthLimitingTextInputFormatter(11),
                           // Limit the length to 10 digits
                         ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.03,
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      margin: const EdgeInsets.symmetric(horizontal: 40),
-                      child: TextFormField(
-                        controller: signUpController.passwordController,
-                        decoration: const InputDecoration(
-                          labelText: 'Password',
-                          prefixIcon: Icon(Icons.lock_outline),
-                          prefixIconColor: Color(0xFF2661FA),
-                        ),
-                        obscureText: true,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.deny(
-                              RegExp('[ ]')), // Disallow spaces
-                          LengthLimitingTextInputFormatter(
-                              50), // Limit the length to 50 characters
-                          //PasswordValidator(),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.03,
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      margin: const EdgeInsets.symmetric(horizontal: 40),
-                      child: TextFormField(
-                        controller: signUpController.comfirmPasswordController,
-                        decoration: const InputDecoration(
-                          labelText: 'Comfirm Password',
-                          prefixIcon: Icon(Icons.lock_outline),
-                          prefixIconColor: Color(0xFF2661FA),
-                        ),
-                        obscureText: true,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.deny(
-                              RegExp('[ ]')), // Disallow spaces
-                          LengthLimitingTextInputFormatter(
-                              50), // Limit the length to 50 characters
-                          //PasswordValidator(),
-                        ],
+                        onChanged: signUpController.setPhone,
+                        validator: signUpController.validatePhoneNo,
                       ),
                     ),
                     SizedBox(
@@ -137,7 +94,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 margin:
                     const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: signUpController.submit,
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(80.0)),
@@ -172,8 +129,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginPage()));
+                    Navigator.pushNamed(context, '/');
                   },
                   child: const Text(
                     "Already have an Account? Sign in",

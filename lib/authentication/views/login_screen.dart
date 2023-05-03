@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rental_user/authentication/controllers/login_controller.dart';
-import 'package:rental_user/authentication/controllers/password_validator.dart';
+import 'package:rental_user/authentication/models/login_model.dart';
 import 'package:rental_user/authentication/views/register_screen.dart';
-import 'package:rental_user/custom_config/background.dart';
+import 'package:rental_user/authentication/custom_config/background.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,7 +14,10 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   LoginController loginController = LoginController();
-  bool obsecurePwd = true;
+
+  //final model = LoginModel();
+
+  // bool obsecurePwd = true;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -49,7 +52,6 @@ class _LoginPageState extends State<LoginPage> {
                     margin: const EdgeInsets.symmetric(horizontal: 40),
                     child: TextFormField(
                       keyboardType: TextInputType.phone,
-                      controller: loginController.phoneController,
                       decoration: const InputDecoration(
                           labelText: 'Phone Number',
                           prefixIcon: Icon(
@@ -61,47 +63,49 @@ class _LoginPageState extends State<LoginPage> {
                         LengthLimitingTextInputFormatter(11),
                         // Limit the length to 10 digits
                       ],
+                      onChanged: loginController.setPhone,
+                      validator: loginController.validatePhoneNo,
                     ),
                   ),
                   SizedBox(
                     height: size.height * 0.03,
                   ),
-                  Container(
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.symmetric(horizontal: 40),
-                    child: TextFormField(
-                      controller: loginController.passwordController,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        prefixIcon: const Icon(Icons.lock_outline),
-                        prefixIconColor: const Color(0xFF2661FA),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              obsecurePwd = !obsecurePwd;
-                            });
-                          },
-                          icon: obsecurePwd
-                              ? const Icon(
-                                  Icons.visibility_off_outlined,
-                                  color: Colors.black38,
-                                )
-                              : const Icon(
-                                  Icons.visibility_outlined,
-                                  color: Color(0xFF2661FA),
-                                ),
-                        ),
-                      ),
-                      obscureText: obsecurePwd,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.deny(
-                            RegExp('[ ]')), // Disallow spaces
-                        LengthLimitingTextInputFormatter(
-                            50), // Limit the length to 50 characters
-                        //PasswordValidator(),
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   alignment: Alignment.center,
+                  //   margin: const EdgeInsets.symmetric(horizontal: 40),
+                  //   child: TextFormField(
+                  //     decoration: InputDecoration(
+                  //       labelText: 'Password',
+                  //       prefixIcon: const Icon(Icons.lock_outline),
+                  //       prefixIconColor: const Color(0xFF2661FA),
+                  //       suffixIcon: IconButton(
+                  //         onPressed: () {
+                  //           setState(() {
+                  //             obsecurePwd = !obsecurePwd;
+                  //           });
+                  //         },
+                  //         icon: obsecurePwd
+                  //             ? const Icon(
+                  //                 Icons.visibility_off_outlined,
+                  //                 color: Colors.black38,
+                  //               )
+                  //             : const Icon(
+                  //                 Icons.visibility_outlined,
+                  //                 color: Color(0xFF2661FA),
+                  //               ),
+                  //       ),
+                  //     ),
+                  //     obscureText: obsecurePwd,
+                  //     inputFormatters: [
+                  //       FilteringTextInputFormatter.deny(
+                  //           RegExp('[ ]')), // Disallow spaces
+                  //       LengthLimitingTextInputFormatter(
+                  //           50), // Limit the length to 50 characters
+                  //       //PasswordValidator(),
+                  //     ],
+                  //     validator: model.validatePassword,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -123,7 +127,9 @@ class _LoginPageState extends State<LoginPage> {
               alignment: Alignment.centerRight,
               margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  loginController.submit(context);
+                },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(80.0)),
@@ -157,8 +163,7 @@ class _LoginPageState extends State<LoginPage> {
               margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => RegisterPage()));
+                  Navigator.pushNamed(context, '/register');
                 },
                 child: const Text(
                   "Don't have an Account? Sign up",
