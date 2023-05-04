@@ -1,10 +1,9 @@
-import 'dart:math';
-
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:rental_user/home/widgets/categories_widget.dart';
 import 'package:rental_user/home/widgets/home_appbar.dart';
+import 'package:rental_user/home/widgets/items_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -15,8 +14,10 @@ class HomePage extends StatelessWidget {
       body: ListView(
         children: [
           const HomeAppBar(),
+
+          // Search
+
           Container(
-            height: 500,
             padding: const EdgeInsets.only(top: 15),
             decoration: BoxDecoration(
               color: Color(0xFFEDECF2),
@@ -56,6 +57,9 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                 ),
+
+                // Categories
+
                 Container(
                   alignment: Alignment.centerLeft,
                   margin: const EdgeInsets.symmetric(
@@ -72,10 +76,57 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
 
-                // Categories
+                // Categories Widget
+
                 CategoriesWidget(),
+
+                // Items
+
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                  child: Text(
+                    "Popular items",
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF4C53A5),
+                    ),
+                  ),
+                ),
+
+                // Items Widget
+                ItemsWidget(),
               ],
             ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: Colors.transparent,
+        onTap: (index) {},
+        height: 53,
+        color: Color(0xFF4C53A5),
+        items: [
+          Icon(
+            Icons.home,
+            size: 30,
+            color: Colors.white,
+          ),
+          Icon(
+            CupertinoIcons.cart_fill,
+            size: 30,
+            color: Colors.white,
+          ),
+          Icon(
+            Icons.favorite,
+            size: 30,
+            color: Colors.white,
+          ),
+          Icon(
+            Icons.person,
+            size: 30,
+            color: Colors.white,
           ),
         ],
       ),

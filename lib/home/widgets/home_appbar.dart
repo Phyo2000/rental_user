@@ -30,23 +30,20 @@ class HomeAppBar extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          AnimatedContainer(
-            duration: Duration(milliseconds: 500),
-            height: 24,
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(12),
+          badges.Badge(
+            onTap: () {
+              Navigator.pushNamed(context, '/cart');
+            },
+            badgeContent: Text(
+              '3',
+              style: TextStyle(color: Colors.white),
             ),
-            child: Center(
-              child: Text(
-                '1',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            child: Icon(
+              Icons.shopping_cart,
+              size: 30,
+              color: Color(0xFF4C53A5),
             ),
-          ),
+          )
         ],
       ),
     );

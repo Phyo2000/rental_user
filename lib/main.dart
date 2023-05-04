@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rental_user/authentication/views/login_screen.dart';
 import 'package:rental_user/authentication/views/register_screen.dart';
+import 'package:rental_user/cart/views/cart_page.dart';
 
 import 'home/views/home_page.dart';
 
@@ -27,6 +28,7 @@ class RentalApp extends StatelessWidget {
         '/': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/home': (context) => const HomePage(),
+        '/cart': (context) => const CartPage(),
       },
     );
   }
