@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rental_user/global_variables.dart';
 
-class CartAppBar extends StatelessWidget {
-  const CartAppBar({super.key});
+class ItemAppBar extends StatelessWidget {
+  const ItemAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,25 +18,25 @@ class CartAppBar extends StatelessWidget {
             child: Icon(
               Icons.arrow_back,
               size: 30,
-              color: Color(0xFF4C53A5),
+              color: mainColor,
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20),
             child: Text(
-              "Cart",
+              "Product",
               style: TextStyle(
                 fontSize: 23,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF4C53A5),
+                color: mainColor,
               ),
             ),
           ),
           Spacer(),
           Icon(
-            Icons.more_vert,
+            Icons.favorite,
             size: 30,
-            color: Color(0xFF4C53A5),
+            color: Colors.red,
           ),
         ],
       ),
