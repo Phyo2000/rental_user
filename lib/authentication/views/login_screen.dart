@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rental_user/authentication/controllers/login_controller.dart';
-import 'package:rental_user/authentication/models/login_model.dart';
-import 'package:rental_user/authentication/views/register_screen.dart';
 import 'package:rental_user/authentication/custom_config/background.dart';
 
 class LoginPage extends StatefulWidget {

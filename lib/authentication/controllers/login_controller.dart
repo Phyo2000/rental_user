@@ -2,12 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:rental_user/authentication/models/login_model.dart';
 import 'package:rental_user/authentication/custom_config/utils.dart';
-import 'package:rental_user/home/views/home_page.dart';
 
 class LoginController {
   final loginFormKey = GlobalKey<FormState>();
+  final otpFormKey = GlobalKey<FormState>();
   final model = LoginModel();
   final dio = Dio();
+
+  List<String> otp = ['0', '0', '0', '0', '0', '0'];
 
   String? validatePhoneNo(String? value) {
     if (value == null || value.isEmpty) {
@@ -22,6 +24,13 @@ class LoginController {
     model.phone = value;
   }
 
+  String? validateOtpField(String? value, BuildContext context) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter valid OTP.';
+    }
+    return null;
+  }
+
   // void setPassword(String? value) {
   //   model.password = value;
   // }
@@ -32,7 +41,7 @@ class LoginController {
 
   void submit(BuildContext context) async {
     if (_isValid()) {
-      Navigator.pushNamed(context, '/home');
+      //Navigator.pushReplacementNamed(context, '/otp');
 
       final response = await dio.post(
         '$mainUrl/login',
@@ -43,7 +52,29 @@ class LoginController {
         debugPrint(
             "################## SUCCESSFULLY LOGIN ####################");
 
-        Navigator.pushNamed(context, '/home');
+        debugPrint(response.data['otp'].toString());
+
+        Navigator.pushReplacementNamed(context, '/otp');
+      }
+    }
+  }
+
+  void otp_submit(BuildContext context) async {
+    if (otpFormKey.currentState?.validate() ?? false) {
+      String ans = "";
+      for (String i in otp) {
+        ans += i;
+      }
+      Map<String, dynamic> toJson() => {'otp': ans};
+
+      final response = await dio.post(
+        '$mainUrl/login',
+        data: {...model.toJson(), ...toJson()},
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint("########## OTP CHECK SUCCESSFULLY #############");
+        Navigator.pushReplacementNamed(context, '/home');
       }
     }
   }
