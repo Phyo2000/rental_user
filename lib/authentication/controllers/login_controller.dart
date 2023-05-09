@@ -14,8 +14,8 @@ class LoginController {
   String? validatePhoneNo(String? value) {
     if (value == null || value.isEmpty) {
       return 'Phone number is required.';
-    } else if (value.length != 11) {
-      return 'Please enter a valid 11-digits phone number.';
+    } else if (value.length > 11 || value.length < 8) {
+      return 'Please enter a valid 8-11 digits phone number.';
     }
     return null;
   }
@@ -24,7 +24,7 @@ class LoginController {
     model.phone = value;
   }
 
-  String? validateOtpField(String? value, BuildContext context) {
+  String? validateOtpField(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please Enter valid OTP.';
     }
@@ -54,7 +54,14 @@ class LoginController {
 
         debugPrint(response.data['otp'].toString());
 
-        Navigator.pushReplacementNamed(context, '/otp');
+        if (response.data['error'].toString() == "true") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("No Account Found. Register Please.")),
+          );
+          Navigator.pushReplacementNamed(context, '/register');
+        } else {
+          Navigator.pushReplacementNamed(context, '/otp');
+        }
       }
     }
   }
@@ -68,7 +75,7 @@ class LoginController {
       Map<String, dynamic> toJson() => {'otp': ans};
 
       final response = await dio.post(
-        '$mainUrl/login',
+        '$mainUrl/check/otp',
         data: {...model.toJson(), ...toJson()},
       );
 

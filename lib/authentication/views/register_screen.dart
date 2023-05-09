@@ -94,7 +94,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 margin:
                     const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 child: ElevatedButton(
-                  onPressed: signUpController.submit,
+                  onPressed: () {
+                    signUpController.submit(context);
+                  },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(80.0)),

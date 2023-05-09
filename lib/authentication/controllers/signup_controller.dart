@@ -11,8 +11,8 @@ class SignUpController {
   String? validatePhoneNo(String? value) {
     if (value == null || value.isEmpty) {
       return 'Phone number is required.';
-    } else if (value.length != 11) {
-      return 'Please enter a valid 11-digits phone number.';
+    } else if (value.length < 8 || value.length > 11) {
+      return 'Please enter a valid 8-11 digits phone number.';
     }
     return null;
   }
@@ -24,8 +24,8 @@ class SignUpController {
   String? validateName(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter a Name.';
-    } else if (value.length < 6) {
-      return 'Name must be at least 5 characters long.';
+    } else if (value.length < 5) {
+      return 'Name must be at least 4 characters long.';
     }
     return null;
   }
@@ -38,7 +38,7 @@ class SignUpController {
     return signUpFormKey.currentState?.validate() ?? false;
   }
 
-  void submit() async {
+  void submit(BuildContext context) async {
     if (_isValid()) {
       final response = await dio.post(
         '$mainUrl/register',
@@ -48,6 +48,7 @@ class SignUpController {
       if (response.statusCode == 200) {
         debugPrint(
             "################## SUCCESSFULLY REGISTERED ####################");
+        Navigator.pushReplacementNamed(context, '/otp');
       }
     }
   }

@@ -41,9 +41,7 @@ class _OtpPageState extends State<OtpPage> {
                       LengthLimitingTextInputFormatter(1),
                       FilteringTextInputFormatter.digitsOnly,
                     ],
-                    validator: (value) {
-                      loginController.validateOtpField(value, context);
-                    },
+                    validator: loginController.validateOtpField,
                   ),
                 ),
                 SizedBox(
@@ -65,6 +63,7 @@ class _OtpPageState extends State<OtpPage> {
                       LengthLimitingTextInputFormatter(1),
                       FilteringTextInputFormatter.digitsOnly,
                     ],
+                    validator: loginController.validateOtpField,
                   ),
                 ),
                 SizedBox(
@@ -86,9 +85,7 @@ class _OtpPageState extends State<OtpPage> {
                       LengthLimitingTextInputFormatter(1),
                       FilteringTextInputFormatter.digitsOnly,
                     ],
-                    validator: (value) {
-                      loginController.validateOtpField(value, context);
-                    },
+                    validator: loginController.validateOtpField,
                   ),
                 ),
                 SizedBox(
@@ -110,9 +107,7 @@ class _OtpPageState extends State<OtpPage> {
                       LengthLimitingTextInputFormatter(1),
                       FilteringTextInputFormatter.digitsOnly,
                     ],
-                    validator: (value) {
-                      loginController.validateOtpField(value, context);
-                    },
+                    validator: loginController.validateOtpField,
                   ),
                 ),
                 SizedBox(
@@ -134,9 +129,7 @@ class _OtpPageState extends State<OtpPage> {
                       LengthLimitingTextInputFormatter(1),
                       FilteringTextInputFormatter.digitsOnly,
                     ],
-                    validator: (value) {
-                      loginController.validateOtpField(value, context);
-                    },
+                    validator: loginController.validateOtpField,
                   ),
                 ),
                 SizedBox(
@@ -157,9 +150,7 @@ class _OtpPageState extends State<OtpPage> {
                       LengthLimitingTextInputFormatter(1),
                       FilteringTextInputFormatter.digitsOnly,
                     ],
-                    validator: (value) {
-                      loginController.validateOtpField(value, context);
-                    },
+                    validator: loginController.validateOtpField,
                   ),
                 ),
               ],

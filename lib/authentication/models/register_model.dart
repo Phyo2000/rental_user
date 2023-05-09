@@ -3,5 +3,5 @@ class RegisterModel {
 
   RegisterModel({this.phone, this.name});
 
-  Map<String, dynamic> toJson() => {'phoneNumber': phone, 'name': name};
+  Map<String, dynamic> toJson() => {'phone': phone, 'name': name};
 }
