@@ -4,12 +4,22 @@ import 'package:rental_user/authentication/models/login_model.dart';
 import 'package:rental_user/authentication/custom_config/utils.dart';
 
 class LoginController {
+  final signUpFormsKey = GlobalKey<FormState>();
   final loginFormKey = GlobalKey<FormState>();
   final otpFormKey = GlobalKey<FormState>();
   final model = LoginModel();
   final dio = Dio();
 
   List<String> otp = ['0', '0', '0', '0', '0', '0'];
+
+  String? validateName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter a Name.';
+    } else if (value.length < 5) {
+      return 'Name must be at least 4 characters long.';
+    }
+    return null;
+  }
 
   String? validatePhoneNo(String? value) {
     if (value == null || value.isEmpty) {
@@ -18,6 +28,10 @@ class LoginController {
       return 'Please enter a valid 8-11 digits phone number.';
     }
     return null;
+  }
+
+  void setName(String value) {
+    model.name = value;
   }
 
   void setPhone(String value) {
@@ -39,6 +53,39 @@ class LoginController {
     return loginFormKey.currentState?.validate() ?? false;
   }
 
+  bool _isValidRegister() {
+    return signUpFormsKey.currentState?.validate() ?? false;
+  }
+
+  void submitRegister(BuildContext context) async {
+    if (_isValidRegister()) {
+      final response = await dio.post(
+        '$mainUrl/register',
+        data: model.toJsonRegister(),
+      );
+
+      if (response.statusCode == 200 ||
+          response.data['error'].toString() != "true") {
+        debugPrint(
+            "################## SUCCESSFULLY REGISTERED ####################");
+
+        debugPrint(response.data['otp'].toString());
+
+        if (response.data['error'].toString() == "true" ||
+            response.data['too-many'].toString() == 'true') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(response.data['message'].toString()),
+            ),
+          );
+          Navigator.pushReplacementNamed(context, '/register');
+        } else {
+          Navigator.pushReplacementNamed(context, '/otp');
+        }
+      }
+    }
+  }
+
   void submit(BuildContext context) async {
     if (_isValid()) {
       //Navigator.pushReplacementNamed(context, '/otp');
@@ -48,15 +95,19 @@ class LoginController {
         data: model.toJson(),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 ||
+          response.data['error'].toString() != "true") {
         debugPrint(
             "################## SUCCESSFULLY LOGIN ####################");
 
         debugPrint(response.data['otp'].toString());
 
-        if (response.data['error'].toString() == "true") {
+        if (response.data['error'].toString() == "true" ||
+            response.data['too-many'].toString() == 'true') {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("No Account Found. Register Please.")),
+            SnackBar(
+              content: Text(response.data['message'].toString()),
+            ),
           );
           Navigator.pushReplacementNamed(context, '/register');
         } else {
@@ -72,16 +123,30 @@ class LoginController {
       for (String i in otp) {
         ans += i;
       }
-      Map<String, dynamic> toJson() => {'otp': ans};
+      debugPrint(
+          "Your phone is ${model.phone.toString()} and your answer is $ans");
+      Map<String, dynamic> toJson() =>
+          {'phone': model.phone.toString(), 'otp': ans};
 
       final response = await dio.post(
         '$mainUrl/check/otp',
-        data: {...model.toJson(), ...toJson()},
+        data: {...toJson()},
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 &&
+          response.data['error'].toString() != "true") {
         debugPrint("########## OTP CHECK SUCCESSFULLY #############");
+        debugPrint("################ ${response.data.toString()} #########");
         Navigator.pushReplacementNamed(context, '/home');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              response.data['message'].toString(),
+            ),
+          ),
+        );
+        debugPrint("################ ${response.data.toString()} #########");
       }
     }
   }

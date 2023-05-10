@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rental_user/authentication/controllers/signup_controller.dart';
-import 'package:rental_user/authentication/views/login_screen.dart';
+import 'package:rental_user/authentication/controllers/login_controller.dart';
 import 'package:rental_user/authentication/custom_config/background.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  final LoginController controller;
+  RegisterPage({super.key, required this.controller});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  SignUpController signUpController = SignUpController();
+  // SignUpController signUpController = SignUpController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 height: size.height * 0.03,
               ),
               Form(
-                key: signUpController.signUpFormKey,
+                key: widget.controller.signUpFormsKey,
                 child: Column(
                   children: [
                     Container(
@@ -55,8 +55,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: Color(0xFF2661FA),
                           ),
                         ),
-                        onChanged: signUpController.setName,
-                        validator: signUpController.validateName,
+                        onChanged: widget.controller.setName,
+                        validator: widget.controller.validateName,
                       ),
                     ),
                     SizedBox(
@@ -79,8 +79,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           LengthLimitingTextInputFormatter(11),
                           // Limit the length to 10 digits
                         ],
-                        onChanged: signUpController.setPhone,
-                        validator: signUpController.validatePhoneNo,
+                        onChanged: widget.controller.setPhone,
+                        validator: widget.controller.validatePhoneNo,
                       ),
                     ),
                     SizedBox(
@@ -95,7 +95,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 child: ElevatedButton(
                   onPressed: () {
-                    signUpController.submit(context);
+                    widget.controller.submitRegister(context);
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(

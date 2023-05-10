@@ -1,11 +1,14 @@
 class LoginModel {
-  String? phone;
+  String? name, phone;
 
   LoginModel({
+    this.name,
     this.phone,
   });
 
   Map<String, dynamic> toJson() => {'phone': phone};
+
+  Map<String, dynamic> toJsonRegister() => {'name': name, 'phone': phone};
 }
 
   // String? validatePassword(String? value) {

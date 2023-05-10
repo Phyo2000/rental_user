@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rental_user/authentication/controllers/login_controller.dart';
 import 'package:rental_user/authentication/views/login_screen.dart';
 import 'package:rental_user/authentication/views/otp_screen.dart';
 import 'package:rental_user/authentication/views/register_screen.dart';
@@ -8,11 +9,13 @@ import 'package:rental_user/items/views/items_page.dart';
 import 'home/views/home_page.dart';
 
 void main() {
-  runApp(const RentalApp());
+  runApp(RentalApp());
 }
 
 class RentalApp extends StatelessWidget {
-  const RentalApp({super.key});
+  RentalApp({super.key});
+
+  LoginController loginController = LoginController();
 
   // This widget is the root of your application.
   @override
@@ -27,10 +30,16 @@ class RentalApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const LoginPage(),
-        '/register': (context) => const RegisterPage(),
+        '/': (context) => LoginPage(
+              loginController: loginController,
+            ),
+        '/register': (context) => RegisterPage(
+              controller: loginController,
+            ),
         '/home': (context) => const HomePage(),
-        '/otp': (context) => OtpPage(),
+        '/otp': (context) => OtpPage(
+              loginController: loginController,
+            ),
         '/cart': (context) => const CartPage(),
         '/item': (context) => ItemPage(),
       },

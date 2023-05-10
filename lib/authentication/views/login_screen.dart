@@ -4,15 +4,14 @@ import 'package:rental_user/authentication/controllers/login_controller.dart';
 import 'package:rental_user/authentication/custom_config/background.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final LoginController loginController;
+  LoginPage({super.key, required this.loginController});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  LoginController loginController = LoginController();
-
   //final model = LoginModel();
 
   // bool obsecurePwd = true;
@@ -42,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
               height: size.height * 0.03,
             ),
             Form(
-              key: loginController.loginFormKey,
+              key: widget.loginController.loginFormKey,
               child: Column(
                 children: [
                   Container(
@@ -61,8 +60,8 @@ class _LoginPageState extends State<LoginPage> {
                         LengthLimitingTextInputFormatter(11),
                         // Limit the length to 10 digits
                       ],
-                      onChanged: loginController.setPhone,
-                      validator: loginController.validatePhoneNo,
+                      onChanged: widget.loginController.setPhone,
+                      validator: widget.loginController.validatePhoneNo,
                     ),
                   ),
                   SizedBox(
@@ -126,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
               margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               child: ElevatedButton(
                 onPressed: () {
-                  loginController.submit(context);
+                  widget.loginController.submit(context);
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
