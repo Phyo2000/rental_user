@@ -4,10 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:rental_user/home/widgets/categories_widget.dart';
 import 'package:rental_user/home/widgets/home_appbar.dart';
 import 'package:rental_user/home/widgets/items_widget.dart';
+import 'package:rental_user/profile/views/profile_screen.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
+  final List<Widget> _children = [
+    HomePage(),
+    ProfilePage(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -59,60 +59,83 @@ class LoginController {
 
   void submitRegister(BuildContext context) async {
     if (_isValidRegister()) {
-      final response = await dio.post(
-        '$mainUrl/register',
-        data: model.toJsonRegister(),
-      );
+      try {
+        final response = await dio.post(
+          '$mainUrl/register',
+          data: model.toJsonRegister(),
+        );
 
-      if (response.statusCode == 200 ||
-          response.data['error'].toString() != "true") {
-        debugPrint(
-            "################## SUCCESSFULLY REGISTERED ####################");
+        if (response.statusCode == 200) {
+          if (response.data['error'].toString() == "false") {
+            debugPrint(
+                "################## SUCCESSFULLY REGISTERED ####################");
+            debugPrint(response.data['otp'].toString());
 
-        debugPrint(response.data['otp'].toString());
-
-        if (response.data['error'].toString() == "true" ||
-            response.data['too-many'].toString() == 'true') {
+            Navigator.pushReplacementNamed(context, '/otp');
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(response.data['message'].toString()),
+              ),
+            );
+            Navigator.pushReplacementNamed(context, '/register');
+          }
+        } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(response.data['message'].toString()),
+            const SnackBar(
+              content: Text("Server Error."),
             ),
           );
-          Navigator.pushReplacementNamed(context, '/register');
-        } else {
-          Navigator.pushReplacementNamed(context, '/otp');
         }
+      } on DioError catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Network Connection Failed."),
+          ),
+        );
       }
     }
   }
 
   void submit(BuildContext context) async {
     if (_isValid()) {
-      //Navigator.pushReplacementNamed(context, '/otp');
+      Navigator.pushReplacementNamed(context, '/home');
 
-      final response = await dio.post(
-        '$mainUrl/login',
-        data: model.toJson(),
-      );
+      try {
+        final response = await dio.post(
+          '$mainUrl/login',
+          data: model.toJson(),
+        );
 
-      if (response.statusCode == 200 ||
-          response.data['error'].toString() != "true") {
-        debugPrint(
-            "################## SUCCESSFULLY LOGIN ####################");
+        if (response.statusCode == 200) {
+          if (response.data['error'].toString() == "false" &&
+              response.data['too-many'].toString() == "false") {
+            debugPrint(
+                "################## SUCCESSFULLY LOGIN ####################");
+            debugPrint(response.data['otp'].toString());
 
-        debugPrint(response.data['otp'].toString());
-
-        if (response.data['error'].toString() == "true" ||
-            response.data['too-many'].toString() == 'true') {
+            Navigator.pushReplacementNamed(context, '/otp');
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(response.data['message'].toString()),
+              ),
+            );
+            Navigator.pushReplacementNamed(context, '/register');
+          }
+        } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(response.data['message'].toString()),
+            const SnackBar(
+              content: Text("Server Error."),
             ),
           );
-          Navigator.pushReplacementNamed(context, '/register');
-        } else {
-          Navigator.pushReplacementNamed(context, '/otp');
         }
+      } on DioError catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Network Connection Failed!"),
+          ),
+        );
       }
     }
   }
@@ -128,25 +151,33 @@ class LoginController {
       Map<String, dynamic> toJson() =>
           {'phone': model.phone.toString(), 'otp': ans};
 
-      final response = await dio.post(
-        '$mainUrl/check/otp',
-        data: {...toJson()},
-      );
+      try {
+        final response = await dio.post(
+          '$mainUrl/check/otp',
+          data: {...toJson()},
+        );
 
-      if (response.statusCode == 200 &&
-          response.data['error'].toString() != "true") {
-        debugPrint("########## OTP CHECK SUCCESSFULLY #############");
-        debugPrint("################ ${response.data.toString()} #########");
-        Navigator.pushReplacementNamed(context, '/home');
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              response.data['message'].toString(),
+        if (response.statusCode == 200 &&
+            response.data['error'].toString() != "true") {
+          debugPrint("########## OTP CHECK SUCCESSFULLY #############");
+          debugPrint("################ ${response.data.toString()} #########");
+          Navigator.pushReplacementNamed(context, '/home');
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                response.data['message'].toString(),
+              ),
             ),
+          );
+          debugPrint("################ ${response.data.toString()} #########");
+        }
+      } on DioError catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Network Connection Failed!"),
           ),
         );
-        debugPrint("################ ${response.data.toString()} #########");
       }
     }
   }
