@@ -1,9 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rental_user/home/widgets/categories_widget.dart';
-import 'package:rental_user/home/widgets/home_appbar.dart';
-import 'package:rental_user/home/widgets/items_widget.dart';
+import 'package:rental_user/cart/widgets/cart_widget.dart';
+import 'package:rental_user/global_variables.dart';
+import 'package:rental_user/home/widgets/home_widget.dart';
 import 'package:rental_user/profile/views/profile_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,109 +15,31 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
-  final List<Widget> _children = [
-    HomePage(),
-    ProfilePage(),
-  ];
+  // GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+  // final List<Widget> _children = [
+  //   HomePage(),
+  //   ProfilePage(),
+  // ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [
-          const HomeAppBar(),
-
-          // Search
-
-          Container(
-            padding: const EdgeInsets.only(top: 15),
-            decoration: BoxDecoration(
-              color: Color(0xFFEDECF2),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(35),
-                topRight: Radius.circular(35),
-              ),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15),
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(left: 5),
-                        height: 50,
-                        width: 300,
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Search here..."),
-                        ),
-                      ),
-                      const Spacer(),
-                      Icon(
-                        Icons.camera_alt,
-                        size: 27,
-                        color: Color(0xFF4C53A5),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Categories
-
-                Container(
-                  alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 10,
-                  ),
-                  child: Text(
-                    "Categories",
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF4C53A5),
-                    ),
-                  ),
-                ),
-
-                // Categories Widget
-
-                CategoriesWidget(),
-
-                // Items
-
-                Container(
-                  alignment: Alignment.centerLeft,
-                  margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                  child: Text(
-                    "Popular items",
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF4C53A5),
-                    ),
-                  ),
-                ),
-
-                // Items Widget
-                ItemsWidget(),
-              ],
-            ),
-          ),
-        ],
-      ),
+      body: getWidget(index: _currentIndex),
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
-        onTap: (index) {},
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => _children[_currentIndex]),
+          // );
+          // final CurvedNavigationBarState? navBarState =
+          //     _bottomNavigationKey.currentState;
+          // navBarState?.setPage(_currentIndex);
+        },
         height: 53,
-        color: Color(0xFF4C53A5),
+        color: mainColor,
         items: [
           Icon(
             Icons.home,
@@ -140,7 +62,28 @@ class _HomePageState extends State<HomePage> {
             color: Colors.white,
           ),
         ],
+        index: _currentIndex,
+        letIndexChange: (index) => true,
       ),
     );
   }
+}
+
+Widget getWidget({required int index}) {
+  Widget widget;
+  switch (index) {
+    case 0:
+      widget = Home();
+      break;
+    case 1:
+      widget = CartView();
+      break;
+    case 3:
+      widget = ProfileView();
+      break;
+    default:
+      widget = Home();
+      break;
+  }
+  return widget;
 }

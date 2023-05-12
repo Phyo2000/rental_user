@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rental_user/global_variables.dart';
 
 class CartItems extends StatelessWidget {
   const CartItems({super.key});
@@ -22,7 +23,7 @@ class CartItems extends StatelessWidget {
                 Radio(
                   value: "",
                   groupValue: "",
-                  activeColor: Color(0xFF4C53A5),
+                  activeColor: mainColor,
                   onChanged: (index) {},
                 ),
                 Container(
@@ -42,7 +43,7 @@ class CartItems extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF4C53A5),
+                          color: mainColor,
                         ),
                       ),
                       Text(
@@ -50,7 +51,7 @@ class CartItems extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF4C53A5),
+                          color: mainColor,
                         ),
                       ),
                     ],

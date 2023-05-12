@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rental_user/global_variables.dart';
 
 class ProfileMenuWidget extends StatelessWidget {
-  ProfileMenuWidget({
+  const ProfileMenuWidget({
     required this.title,
     required this.icon,
     required this.onPress,
@@ -25,28 +26,29 @@ class ProfileMenuWidget extends StatelessWidget {
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
-          color: Colors.blueAccent.withOpacity(0.1),
+          color: mainColor.withOpacity(0.1),
         ),
         child: Icon(
           icon,
-          color: Colors.blueAccent,
+          color: mainColor,
         ),
       ),
-      title: Text(title,
-          style:
-              Theme.of(context).textTheme.bodySmall?.apply(color: textColor)),
+      title: Text(
+        title,
+        style: TextStyle(fontSize: 15, color: textColor),
+      ),
       trailing: endIcon
           ? Container(
               width: 30,
               height: 30,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
-                color: Colors.grey.withOpacity(0.1),
+                color: mainColor.withOpacity(0.1),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.arrow_forward,
                 size: 18,
-                color: Colors.grey,
+                color: mainColor,
               ),
             )
           : null,

@@ -12,7 +12,7 @@ class CartPage extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: [
-          CartAppBar(),
+          const CartAppBar(),
           Container(
             height: 700,
             padding: const EdgeInsets.only(top: 15),

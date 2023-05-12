@@ -1,45 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:rental_user/global_variables.dart';
+import 'package:rental_user/profile/widgets/profile_appbar.dart';
 import 'package:rental_user/profile/widgets/profile_menu.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfileView extends StatelessWidget {
+  const ProfileView({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Profile",
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Container(
+    return ListView(
+      children: [
+        const ProfileAppBar(),
+        Container(
+          height: 680,
           padding: const EdgeInsets.all(25),
+          decoration: const BoxDecoration(
+            color: Color(0xFFEDECF2),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(35),
+              topRight: Radius.circular(35),
+            ),
+          ),
           child: Column(
             children: [
               SizedBox(
-                width: 120,
-                height: 120,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image.network(
-                      "https://img.freepik.com/free-photo/lifestyle-beauty-fashion-people-emotions-concept-young-asian-female-office-manager-ceo-with-pleased-expression-standing-white-background-smiling-with-arms-crossed-chest_1258-59329.jpg?w=1380&t=st=1683777636~exp=1683778236~hmac=a9a691f62697f1cf33cd5abd25ddc13171df61e8e7b70f8a8a2d8cc3de987097"),
+                width: 130,
+                height: 130,
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      "https://t3.ftcdn.net/jpg/04/98/91/96/240_F_498919631_Me4XD0pVj0tX109wnyH7FIo6FHTb5J0E.jpg"),
                 ),
               ),
               const SizedBox(height: 10),
               Text(
                 "Rachel Andrews",
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: TextStyle(
+                  fontSize: 25,
+                  color: mainColor,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              const SizedBox(height: 10),
               Text(
                 "09768192083",
-                style: Theme.of(context).textTheme.bodySmall,
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               SizedBox(
                 width: 200,
+                height: 47,
                 child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
@@ -57,17 +71,20 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 10),
               ProfileMenuWidget(
                 title: "Your Favourite",
-                icon: Icons.settings,
+                icon: Icons.favorite,
+                textColor: mainColor,
                 onPress: () {},
               ),
               ProfileMenuWidget(
                 title: "Your Cart",
-                icon: Icons.settings,
+                icon: Icons.shopping_cart,
+                textColor: mainColor,
                 onPress: () {},
               ),
               ProfileMenuWidget(
                 title: "Your Rent",
-                icon: Icons.settings,
+                icon: Icons.list,
+                textColor: mainColor,
                 onPress: () {},
               ),
               ProfileMenuWidget(
@@ -80,7 +97,7 @@ class ProfilePage extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 }

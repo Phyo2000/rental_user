@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rental_user/global_variables.dart';
 
-class CartAppBar extends StatelessWidget {
-  const CartAppBar({super.key});
+class ProfileAppBar extends StatelessWidget {
+  const ProfileAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,33 +10,22 @@ class CartAppBar extends StatelessWidget {
       color: Colors.white,
       padding: const EdgeInsets.all(25),
       child: Row(
-        children: [
-          InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.arrow_back,
-              size: 30,
-              color: mainColor,
-            ),
+        children: const [
+          Icon(
+            Icons.person,
+            size: 30,
+            color: mainColor,
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(left: 20),
             child: Text(
-              "Cart",
+              "Profile",
               style: TextStyle(
                 fontSize: 23,
                 fontWeight: FontWeight.bold,
                 color: mainColor,
               ),
             ),
-          ),
-          const Spacer(),
-          const Icon(
-            Icons.more_vert,
-            size: 30,
-            color: mainColor,
           ),
         ],
       ),
