@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rental_user/global_variables.dart';
 
 class CategoriesWidget extends StatelessWidget {
   const CategoriesWidget({super.key});
@@ -30,7 +31,7 @@ class CategoriesWidget extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 17,
-                      color: Color(0xFF4C53A5),
+                      color: mainColor,
                     ),
                   ),
                 ],

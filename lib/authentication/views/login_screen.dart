@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:rental_user/authentication/controllers/login_controller.dart';
 import 'package:rental_user/authentication/custom_config/background.dart';
 
 class LoginPage extends StatefulWidget {
   final LoginController loginController;
-  LoginPage({super.key, required this.loginController});
+  const LoginPage({super.key, required this.loginController});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  //final model = LoginModel();
+  bool _isLoading = false;
 
-  // bool obsecurePwd = true;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -106,17 +106,17 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
-            Container(
-              alignment: Alignment.centerRight,
-              margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-              child: const Text(
-                'Forgot your password?',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color(0xFF2661FA),
-                ),
-              ),
-            ),
+            // Container(
+            //   alignment: Alignment.centerRight,
+            //   margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+            //   child: const Text(
+            //     'Forgot your password?',
+            //     style: TextStyle(
+            //       fontSize: 12,
+            //       color: Color(0xFF2661FA),
+            //     ),
+            //   ),
+            // ),
             SizedBox(
               height: size.height * 0.03,
             ),
@@ -124,9 +124,19 @@ class _LoginPageState extends State<LoginPage> {
               alignment: Alignment.centerRight,
               margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               child: ElevatedButton(
-                onPressed: () {
-                  widget.loginController.submit(context);
-                },
+                onPressed: _isLoading
+                    ? null
+                    : () async {
+                        setState(() {
+                          _isLoading = true;
+                        });
+
+                        await widget.loginController.submit(context);
+
+                        setState(() {
+                          _isLoading = false;
+                        });
+                      },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(80.0)),
@@ -147,11 +157,13 @@ class _LoginPageState extends State<LoginPage> {
                     ]),
                   ),
                   padding: const EdgeInsets.all(0),
-                  child: const Text(
-                    'LOG IN',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                  child: _isLoading
+                      ? const CircularProgressIndicator()
+                      : const Text(
+                          'LOG IN',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                 ),
               ),
             ),

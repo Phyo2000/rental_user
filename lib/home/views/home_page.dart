@@ -1,13 +1,17 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rental_user/authentication/controllers/login_controller.dart';
 import 'package:rental_user/cart/widgets/cart_widget.dart';
 import 'package:rental_user/global_variables.dart';
 import 'package:rental_user/home/widgets/home_widget.dart';
 import 'package:rental_user/profile/views/profile_screen.dart';
+import 'package:rental_user/user/model/user_model.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({
+    super.key,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();

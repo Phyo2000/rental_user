@@ -5,13 +5,14 @@ import 'package:rental_user/authentication/custom_config/background.dart';
 
 class RegisterPage extends StatefulWidget {
   final LoginController controller;
-  RegisterPage({super.key, required this.controller});
+  const RegisterPage({super.key, required this.controller});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  bool _isLoading = false;
   // SignUpController signUpController = SignUpController();
 
   @override
@@ -94,9 +95,19 @@ class _RegisterPageState extends State<RegisterPage> {
                 margin:
                     const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 child: ElevatedButton(
-                  onPressed: () {
-                    widget.controller.submitRegister(context);
-                  },
+                  onPressed: _isLoading
+                      ? null
+                      : () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
+
+                          await widget.controller.submitRegister(context);
+
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(80.0)),
@@ -117,11 +128,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       ]),
                     ),
                     padding: const EdgeInsets.all(0),
-                    child: const Text(
-                      'SIGN UP',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
+                    child: _isLoading
+                        ? const CircularProgressIndicator()
+                        : const Text(
+                            'SIGN UP',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                   ),
                 ),
               ),

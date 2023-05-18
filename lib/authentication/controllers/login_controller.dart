@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rental_user/authentication/models/login_model.dart';
 import 'package:rental_user/authentication/custom_config/utils.dart';
+import 'package:rental_user/user/model/user_model.dart';
 
 class LoginController {
   final signUpFormsKey = GlobalKey<FormState>();
@@ -57,7 +59,7 @@ class LoginController {
     return signUpFormsKey.currentState?.validate() ?? false;
   }
 
-  void submitRegister(BuildContext context) async {
+  Future<void> submitRegister(BuildContext context) async {
     if (_isValidRegister()) {
       try {
         final response = await dio.post(
@@ -97,9 +99,9 @@ class LoginController {
     }
   }
 
-  void submit(BuildContext context) async {
+  Future<void> submit(BuildContext context) async {
     if (_isValid()) {
-      Navigator.pushReplacementNamed(context, '/home');
+      //Navigator.pushReplacementNamed(context, '/home');
 
       try {
         final response = await dio.post(
@@ -108,14 +110,16 @@ class LoginController {
         );
 
         if (response.statusCode == 200) {
+          debugPrint("############### True #################");
           if (response.data['error'].toString() == "false" &&
-              response.data['too-many'].toString() == "false") {
+              response.data['too_many'].toString() == "false") {
             debugPrint(
                 "################## SUCCESSFULLY LOGIN ####################");
             debugPrint(response.data['otp'].toString());
 
             Navigator.pushReplacementNamed(context, '/otp');
-          } else {
+          } else if (response.data['error'].toString() == "true" ||
+              response.data['too-many'].toString() == "true") {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(response.data['message'].toString()),
@@ -132,7 +136,7 @@ class LoginController {
         }
       } on DioError catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text("Network Connection Failed!"),
           ),
         );
@@ -140,7 +144,7 @@ class LoginController {
     }
   }
 
-  void otp_submit(BuildContext context) async {
+  Future<void> otp_submit(BuildContext context) async {
     if (otpFormKey.currentState?.validate() ?? false) {
       String ans = "";
       for (String i in otp) {
@@ -161,6 +165,26 @@ class LoginController {
             response.data['error'].toString() != "true") {
           debugPrint("########## OTP CHECK SUCCESSFULLY #############");
           debugPrint("################ ${response.data.toString()} #########");
+          ModelUser modelUser = Provider.of<ModelUser>(context, listen: false);
+
+          debugPrint(
+              "################ ${response.data['data']['_id']} #########");
+          debugPrint(
+              "################ ${response.data['data']['name'].toString()} #########");
+
+          modelUser.setUser(
+              id: response.data['data']['_id'].toString(),
+              name: response.data['data']['name'].toString(),
+              username: response.data['data']['username'].toString(),
+              phone: response.data['data']['phone'].toString(),
+              token: response.data['data']['auth_token'].toString());
+
+          // final userModel = UserModel(
+          //     id: response.data["id"],
+          //     name: response.data["name"],
+          //     username: response.data["username"],
+          //     phone: response.data["phone"],
+          //     token: response.data["token"]);
           Navigator.pushReplacementNamed(context, '/home');
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -170,7 +194,6 @@ class LoginController {
               ),
             ),
           );
-          debugPrint("################ ${response.data.toString()} #########");
         }
       } on DioError catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(

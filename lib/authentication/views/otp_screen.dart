@@ -11,6 +11,7 @@ class OtpPage extends StatefulWidget {
 }
 
 class _OtpPageState extends State<OtpPage> {
+  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     // List<int> otp = [0, 0, 0, 0, 0, 0];
@@ -156,10 +157,22 @@ class _OtpPageState extends State<OtpPage> {
             ),
           ),
           ElevatedButton(
-            onPressed: () {
-              widget.loginController.otp_submit(context);
-            },
-            child: Text('Submit'),
+            onPressed: _isLoading
+                ? null
+                : () async {
+                    setState(() {
+                      _isLoading = true;
+                    });
+
+                    await widget.loginController.otp_submit(context);
+
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  },
+            child: _isLoading
+                ? const CircularProgressIndicator()
+                : const Text('Submit'),
           ),
         ],
       ),

@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rental_user/global_variables.dart';
+import 'package:rental_user/profile/controllers/profile_controller.dart';
 import 'package:rental_user/profile/widgets/profile_appbar.dart';
 import 'package:rental_user/profile/widgets/profile_menu.dart';
+import 'package:rental_user/user/model/user_model.dart';
 
-class ProfileView extends StatelessWidget {
-  const ProfileView({
-    super.key,
-  });
+class ProfileView extends StatefulWidget {
+  const ProfileView({super.key});
 
   @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  @override
   Widget build(BuildContext context) {
+    final ModelUser modelUser = Provider.of<ModelUser>(context, listen: false);
+    final UserModel user = modelUser.user;
+
     return ListView(
       children: [
         const ProfileAppBar(),
@@ -35,8 +44,8 @@ class ProfileView extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                "Rachel Andrews",
-                style: TextStyle(
+                user.name,
+                style: const TextStyle(
                   fontSize: 25,
                   color: mainColor,
                   fontWeight: FontWeight.bold,
@@ -44,8 +53,8 @@ class ProfileView extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                "09768192083",
-                style: TextStyle(
+                user.phone,
+                style: const TextStyle(
                   fontSize: 18,
                   color: Colors.black,
                 ),
@@ -92,7 +101,9 @@ class ProfileView extends StatelessWidget {
                 icon: Icons.logout,
                 textColor: Colors.redAccent,
                 endIcon: false,
-                onPress: () {},
+                onPress: () {
+                  logOut(context);
+                },
               ),
             ],
           ),
