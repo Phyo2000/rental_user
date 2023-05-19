@@ -43,7 +43,7 @@ class Home extends StatelessWidget {
                       height: 50,
                       width: 300,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: "Search here..."),
                       ),
@@ -87,7 +87,7 @@ class Home extends StatelessWidget {
                 margin:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                 child: const Text(
-                  "Popular items",
+                  "Rental items",
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,

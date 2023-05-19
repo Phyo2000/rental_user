@@ -32,3 +32,28 @@ Future<List<Map<String, dynamic>>> requestCategories(
     return []; // Return an empty list if the data is null or not a list
   }
 }
+
+Future<List<Map<String, dynamic>>> requestItems(BuildContext context) async {
+  ModelUser modelUser = Provider.of<ModelUser>(context, listen: false);
+  final UserModel user = modelUser.user;
+  final String token = user.token;
+
+  final response = await dio.get(
+    '$mainUrl/brands',
+    data: modelUser.toJson(),
+    options: Options(
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    ),
+  );
+
+  final data = response.data as Map<String, dynamic>;
+  final items = data['data'];
+
+  if (items != null && items is List<dynamic>) {
+    return items.cast<Map<String, dynamic>>().toList();
+  } else {
+    return []; // Return an empty list if the data is null or not a list
+  }
+}
