@@ -144,7 +144,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, '/');
+                    Navigator.pushNamed(context, '/login');
                   },
                   child: const Text(
                     "Already have an Account? Sign in",

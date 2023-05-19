@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:rental_user/authentication/models/login_model.dart';
 import 'package:rental_user/authentication/custom_config/utils.dart';
 import 'package:rental_user/user/model/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController {
   final signUpFormsKey = GlobalKey<FormState>();
@@ -17,7 +18,7 @@ class LoginController {
   String? validateName(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter a Name.';
-    } else if (value.length < 5) {
+    } else if (value.length < 4) {
       return 'Name must be at least 4 characters long.';
     }
     return null;
@@ -172,12 +173,24 @@ class LoginController {
           debugPrint(
               "################ ${response.data['data']['name'].toString()} #########");
 
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+          await prefs.setStringList('credentials', <String>[
+            response.data['data']['_id'].toString(),
+            response.data['data']['name'].toString(),
+            response.data['data']['username'].toString(),
+            response.data['data']['phone'].toString(),
+            response.data['data']['auth_token'].toString()
+          ]);
+
+          final List<String>? credentials = prefs.getStringList('credentials');
+
           modelUser.setUser(
-              id: response.data['data']['_id'].toString(),
-              name: response.data['data']['name'].toString(),
-              username: response.data['data']['username'].toString(),
-              phone: response.data['data']['phone'].toString(),
-              token: response.data['data']['auth_token'].toString());
+              id: credentials![0],
+              name: credentials[1],
+              username: credentials[2],
+              phone: credentials[3],
+              token: credentials[4]);
 
           // final userModel = UserModel(
           //     id: response.data["id"],
