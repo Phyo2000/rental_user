@@ -19,7 +19,7 @@ class Home extends StatelessWidget {
 
         Container(
           padding: const EdgeInsets.only(top: 15),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Color(0xFFEDECF2),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(35),
@@ -49,8 +49,8 @@ class Home extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    Icon(
-                      Icons.camera_alt,
+                    const Icon(
+                      Icons.search_sharp,
                       size: 27,
                       color: mainColor,
                     ),
@@ -66,7 +66,7 @@ class Home extends StatelessWidget {
                   vertical: 20,
                   horizontal: 10,
                 ),
-                child: Text(
+                child: const Text(
                   "Categories",
                   style: TextStyle(
                     fontSize: 25,
@@ -78,7 +78,7 @@ class Home extends StatelessWidget {
 
               // Categories Widget
 
-              CategoriesWidget(),
+              const CategoriesWidget(),
 
               // Items
 
@@ -97,7 +97,7 @@ class Home extends StatelessWidget {
               ),
 
               // Items Widget
-              ItemsWidget(),
+              const ItemsWidget(),
             ],
           ),
         ),
