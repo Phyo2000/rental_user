@@ -32,7 +32,7 @@ void logOut(BuildContext context) async {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Successfully Logout"),
-          duration: Duration(milliseconds: 600),
+          duration: Duration(seconds: 7),
         ),
       );
 

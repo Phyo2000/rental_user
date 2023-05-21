@@ -1,12 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rental_user/authentication/controllers/login_controller.dart';
 import 'package:rental_user/cart/widgets/cart_widget.dart';
 import 'package:rental_user/global_variables.dart';
 import 'package:rental_user/home/widgets/home_widget.dart';
 import 'package:rental_user/profile/views/profile_screen.dart';
-import 'package:rental_user/user/model/user_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -34,17 +32,10 @@ class _HomePageState extends State<HomePage> {
           setState(() {
             _currentIndex = index;
           });
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => _children[_currentIndex]),
-          // );
-          // final CurvedNavigationBarState? navBarState =
-          //     _bottomNavigationKey.currentState;
-          // navBarState?.setPage(_currentIndex);
         },
         height: 53,
         color: mainColor,
-        items: [
+        items: const [
           Icon(
             Icons.home,
             size: 30,
@@ -77,16 +68,16 @@ Widget getWidget({required int index}) {
   Widget widget;
   switch (index) {
     case 0:
-      widget = Home();
+      widget = const Home();
       break;
     case 1:
-      widget = CartView();
+      widget = const CartView();
       break;
     case 3:
-      widget = ProfileView();
+      widget = const ProfileView();
       break;
     default:
-      widget = Home();
+      widget = const Home();
       break;
   }
   return widget;

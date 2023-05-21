@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rental_user/authentication/controllers/login_controller.dart';
+import 'package:rental_user/global_variables.dart';
 
 class OtpPage extends StatefulWidget {
   final LoginController loginController;
@@ -19,6 +20,24 @@ class _OtpPageState extends State<OtpPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Text(
+            "OTP code has been sent to ${widget.loginController.model.phone}",
+            style: const TextStyle(
+              fontSize: 18,
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/login');
+            },
+            child: const Text(
+              "Change",
+              style: TextStyle(fontSize: 20, color: mainColor),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
           Form(
             key: widget.loginController.otpFormKey,
             child: Row(

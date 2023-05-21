@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rental_user/global_variables.dart';
+import 'package:rental_user/home/widgets/brand_list_widget.dart';
 import 'package:rental_user/home/widgets/categories_widget.dart';
 import 'package:rental_user/home/widgets/home_appbar.dart';
 import 'package:rental_user/home/widgets/items_widget.dart';
@@ -80,6 +81,24 @@ class Home extends StatelessWidget {
 
               const CategoriesWidget(),
 
+              // Brand
+
+              Container(
+                alignment: Alignment.centerLeft,
+                margin:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                child: const Text(
+                  "Brand Lists",
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: mainColor,
+                  ),
+                ),
+              ),
+
+              const BrandWidget(),
+
               // Items
 
               Container(
@@ -87,7 +106,7 @@ class Home extends StatelessWidget {
                 margin:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                 child: const Text(
-                  "Rental items",
+                  "Rental Items",
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
@@ -97,7 +116,9 @@ class Home extends StatelessWidget {
               ),
 
               // Items Widget
-              const ItemsWidget(),
+              ItemsWidget(
+                isDetail: false,
+              ),
             ],
           ),
         ),

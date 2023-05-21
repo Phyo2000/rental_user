@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:rental_user/authentication/controllers/login_controller.dart';
 import 'package:rental_user/authentication/custom_config/background.dart';
 
@@ -31,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
                 "LOGIN",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF2661FA),
+                  color: Color(0xFF2661FA), // different with mainColor
                   fontSize: 36,
                 ),
                 textAlign: TextAlign.left,
@@ -53,7 +52,8 @@ class _LoginPageState extends State<LoginPage> {
                           labelText: 'Phone Number',
                           prefixIcon: Icon(
                             Icons.phone,
-                            color: Color(0xFF2661FA),
+                            color:
+                                Color(0xFF2661FA), // different with mainColor
                           )),
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,

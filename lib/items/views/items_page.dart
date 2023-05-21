@@ -7,23 +7,22 @@ import 'package:rental_user/items/widgets/item_appbar.dart';
 import 'package:rental_user/items/widgets/item_bottom_navbar.dart';
 
 class ItemPage extends StatelessWidget {
-  ItemPage({super.key, this.colors});
-
-  List<dynamic>? colors = [
-    Colors.orange,
-    Colors.yellow,
-    Colors.green,
-    Colors.red,
-    Colors.blue,
-  ];
+  const ItemPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    List<Color> colors = [
+      Colors.orange,
+      Colors.yellow,
+      Colors.green,
+      Colors.red,
+      Colors.blue,
+    ];
     return Scaffold(
-      backgroundColor: Color(0xFFEDECF2),
+      backgroundColor: const Color(0xFFEDECF2),
       body: ListView(
         children: [
-          ItemAppBar(),
+          const ItemAppBar(),
           Padding(
             padding: const EdgeInsets.all(16),
             child: Image.asset(
@@ -39,7 +38,7 @@ class ItemPage extends StatelessWidget {
               width: double.infinity,
               color: Colors.white,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
                     Padding(
@@ -69,9 +68,9 @@ class ItemPage extends StatelessWidget {
                             itemSize: 25,
                             itemPadding:
                                 const EdgeInsets.symmetric(horizontal: 4),
-                            itemBuilder: (context, _) => Icon(
+                            itemBuilder: (context, _) => const Icon(
                               Icons.star,
-                              color: Color(0xFF2661FA),
+                              color: mainColor,
                             ),
                             onRatingUpdate: (index) {},
                           ),
@@ -199,7 +198,7 @@ class ItemPage extends StatelessWidget {
                                 color: mainColor,
                                 fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Row(
@@ -212,8 +211,7 @@ class ItemPage extends StatelessWidget {
                                   margin:
                                       const EdgeInsets.symmetric(horizontal: 5),
                                   decoration: BoxDecoration(
-                                      color:
-                                          colors?.elementAt(i) ?? Colors.amber,
+                                      color: colors.elementAt(i),
                                       borderRadius: BorderRadius.circular(30),
                                       boxShadow: [
                                         BoxShadow(
@@ -235,7 +233,7 @@ class ItemPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: ItemBottomNavBar(),
+      bottomNavigationBar: const ItemBottomNavBar(),
     );
   }
 }

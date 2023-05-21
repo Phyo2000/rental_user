@@ -118,6 +118,15 @@ class LoginController {
                 "################## SUCCESSFULLY LOGIN ####################");
             debugPrint(response.data['otp'].toString());
 
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  response.data['otp'].toString(),
+                ),
+                duration: const Duration(seconds: 10),
+              ),
+            );
+
             Navigator.pushReplacementNamed(context, '/otp');
           } else if (response.data['error'].toString() == "true" ||
               response.data['too-many'].toString() == "true") {

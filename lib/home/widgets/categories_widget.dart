@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rental_user/global_variables.dart';
 import 'package:rental_user/home/controllers/home_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoriesWidget extends StatefulWidget {
   const CategoriesWidget({super.key});
@@ -20,8 +21,24 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
           // Show a loading indicator while waiting for the data
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          // Show an error message if there's an error
-          return Text('Error: ${snapshot.error}');
+          // Return to Login if there has error
+          WidgetsBinding.instance.addPostFrameCallback((_) async {
+            final SharedPreferences prefs =
+                await SharedPreferences.getInstance();
+
+            await prefs.remove('credentials');
+
+            Navigator.pushReplacementNamed(context, '/login');
+          });
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Token expired! You need to login again."),
+              duration: Duration(seconds: 10),
+            ),
+          );
+
+          return const SizedBox();
         } else if (snapshot.hasData) {
           // Render the categories when the data is available
           final categories = snapshot.data!;

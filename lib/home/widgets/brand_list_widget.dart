@@ -2,24 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:rental_user/global_variables.dart';
 import 'package:rental_user/home/controllers/home_controller.dart';
 
-class ItemsWidget extends StatelessWidget {
-  final bool isDetail;
-  String? id;
-  ItemsWidget({super.key, required this.isDetail, this.id});
+class BrandWidget extends StatelessWidget {
+  const BrandWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: isDetail
-          ? requestBrand(context: context, brandId: id)
-          : requestItems(context),
+      future: requestBrand(context: context),
       builder: (BuildContext context,
           AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // Show a loading indicator while waiting for the data
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          // return to Login if there's an error
+          // Go to login if there's an error
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushReplacementNamed(context, '/login');
           });
@@ -32,17 +28,16 @@ class ItemsWidget extends StatelessWidget {
           );
 
           return const SizedBox();
-          //return Text('Error: ${snapshot.error}');
         } else if (snapshot.hasData) {
-          final items = snapshot.data!;
+          final brands = snapshot.data!;
 
           return GridView.count(
-            childAspectRatio: 0.5,
+            childAspectRatio: 0.73,
             physics: const NeverScrollableScrollPhysics(),
             crossAxisCount: 2,
             shrinkWrap: true,
             children: [
-              for (final item in items)
+              for (final brand in brands)
                 Container(
                   padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
                   margin:
@@ -53,34 +48,19 @@ class ItemsWidget extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          SizedBox(),
-                          // Container(
-                          //   padding: const EdgeInsets.all(5),
-                          //   decoration: BoxDecoration(
-                          //     color: Color(0xFF4C53A5),
-                          //     borderRadius: BorderRadius.circular(20),
-                          //   ),
-                          //   child: Text(
-                          //     "-50%",
-                          //     style: TextStyle(
-                          //       fontSize: 14,
-                          //       color: Colors.white,
-                          //       fontWeight: FontWeight.bold,
-                          //     ),
-                          //   ),
-                          // ),
-                          Icon(
-                            Icons.favorite_border,
-                            color: Colors.red,
-                          )
-                        ],
-                      ),
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, "/item");
+                          String brandId = brand['_id'];
+                          String brandName = brand['name'];
+                          Map<String, dynamic> arguments = {
+                            'brandId': brandId,
+                            'brandName': brandName,
+                          };
+                          Navigator.pushNamed(
+                            context,
+                            "/brandDetails",
+                            arguments: arguments,
+                          );
                         },
                         child: Container(
                           margin: const EdgeInsets.all(10),
@@ -95,9 +75,7 @@ class ItemsWidget extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 8),
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          item['name'].toString().length > 15
-                              ? item['name'].toString().substring(0, 15)
-                              : item['name'].toString(),
+                          brand['name'],
                           style: const TextStyle(
                             fontSize: 18,
                             color: mainColor,
@@ -111,38 +89,7 @@ class ItemsWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              item['brand']['name'].toString().length > 15
-                                  ? item['brand']['name']
-                                      .toString()
-                                      .substring(0, 15)
-                                  : item['brand']['name'].toString(),
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: mainColor),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          item['description'].toString().length > 50
-                              ? item['description'].toString().substring(0, 50)
-                              : item['description'].toString(),
-                          style: const TextStyle(
-                            fontSize: 15,
-                            color: mainColor,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "\$ ${item['price']}",
+                              "Products : ${brand['product_count']}",
                               style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,

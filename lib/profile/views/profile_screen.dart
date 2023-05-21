@@ -5,7 +5,6 @@ import 'package:rental_user/profile/controllers/profile_controller.dart';
 import 'package:rental_user/profile/widgets/profile_appbar.dart';
 import 'package:rental_user/profile/widgets/profile_menu.dart';
 import 'package:rental_user/user/model/user_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
