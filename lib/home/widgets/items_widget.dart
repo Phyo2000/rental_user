@@ -3,12 +3,18 @@ import 'package:rental_user/global_variables.dart';
 import 'package:rental_user/home/controllers/home_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ItemsWidget extends StatelessWidget {
+// ignore: must_be_immutable
+class ItemsWidget extends StatefulWidget {
   final bool isDetail;
   bool? isBrand;
   String? id;
   ItemsWidget({super.key, required this.isDetail, this.id, this.isBrand});
 
+  @override
+  State<ItemsWidget> createState() => _ItemsWidgetState();
+}
+
+class _ItemsWidgetState extends State<ItemsWidget> {
   void showTokenExpiredSnackBar(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -21,10 +27,10 @@ class ItemsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: isDetail
-          ? isBrand ?? false
-              ? requestBrand(context: context, brandId: id)
-              : requestCategories(context: context, categoryId: id)
+      future: widget.isDetail
+          ? widget.isBrand ?? false
+              ? requestBrand(context: context, brandId: widget.id)
+              : requestCategories(context: context, categoryId: widget.id)
           : requestItems(context),
       builder: (BuildContext context,
           AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
@@ -36,22 +42,31 @@ class ItemsWidget extends StatelessWidget {
           WidgetsBinding.instance.addPostFrameCallback((_) async {
             final SharedPreferences prefs =
                 await SharedPreferences.getInstance();
-            showTokenExpiredSnackBar(context);
 
-            //await prefs.remove('credentials');
-            //Navigator.pushReplacementNamed(context, '/login');
+            await prefs.remove('credentials');
+            Navigator.pushReplacementNamed(context, '/login');
           });
+          showTokenExpiredSnackBar(context);
 
-          //return const SizedBox();
-          return Text('Error: ${snapshot.error}');
+          return const SizedBox();
+          //return Text('Error: ${snapshot.error}');
         } else if (snapshot.hasData) {
           final items = snapshot.data!;
-          debugPrint("### Here is items : $items ###");
+          debugPrint("### Here are items : $items ###");
           return GridView.count(
             childAspectRatio: 0.5,
             physics: const NeverScrollableScrollPhysics(),
             crossAxisCount: 2,
             shrinkWrap: true,
+            // children: [
+            //   for (final item in items)
+            //     Text(
+            //       item['name'].toString(),
+            //     ),
+            //     Text(
+            //       item['name'].toString(),
+            //     ),
+            // ],
             children: [
               for (final item in items)
                 Container(
@@ -106,9 +121,10 @@ class ItemsWidget extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 8),
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          item['name'].toString().length > 15
+                          (item['name'] != null &&
+                                  item['name'].toString().length > 15)
                               ? item['name'].toString().substring(0, 15)
-                              : item['name'].toString(),
+                              : item['name']?.toString() ?? '',
                           style: const TextStyle(
                             fontSize: 18,
                             color: mainColor,
@@ -122,11 +138,13 @@ class ItemsWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              item['brand']['name'].toString().length > 15
+                              (item['brand']['name'] != null &&
+                                      item['brand']['name'].toString().length >
+                                          15)
                                   ? item['brand']['name']
                                       .toString()
                                       .substring(0, 15)
-                                  : item['brand']['name'].toString(),
+                                  : item['brand']['name']?.toString() ?? '',
                               style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -140,11 +158,16 @@ class ItemsWidget extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              item['category']['name'].toString().length > 15
+                              (item['category'] != null &&
+                                      item['category']['name'] != null &&
+                                      item['category']['name']
+                                              .toString()
+                                              .length >
+                                          15)
                                   ? item['category']['name']
                                       .toString()
                                       .substring(0, 15)
-                                  : item['category']['name'].toString(),
+                                  : item['category']?['name']?.toString() ?? '',
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -157,9 +180,10 @@ class ItemsWidget extends StatelessWidget {
                       Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          item['description'].toString().length > 50
+                          (item['description'] != null &&
+                                  item['description'].toString().length > 50)
                               ? item['description'].toString().substring(0, 50)
-                              : item['description'].toString(),
+                              : item['description']?.toString() ?? '',
                           style: const TextStyle(
                             fontSize: 15,
                             color: mainColor,
@@ -172,7 +196,9 @@ class ItemsWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "\$ ${item['price']}",
+                              item['price'] != null
+                                  ? "\$ ${item['price']}"
+                                  : '',
                               style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,

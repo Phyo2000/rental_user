@@ -115,10 +115,11 @@ class Home extends StatelessWidget {
                 ),
               ),
 
-              // Items Widget
+              //Items Widget
               ItemsWidget(
                 isDetail: false,
               ),
+              //const ItemList(),
             ],
           ),
         ),

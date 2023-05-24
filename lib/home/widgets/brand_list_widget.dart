@@ -69,8 +69,8 @@ class BrandWidget extends StatelessWidget {
                         },
                         child: Container(
                           margin: const EdgeInsets.all(10),
-                          child: Image.asset(
-                            "assets/images/2.png",
+                          child: Image.network(
+                            brand['media']['media_link'],
                             height: 140,
                             width: 120,
                           ),
