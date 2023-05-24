@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:provider/provider.dart';
 import 'package:rental_user/user/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,8 +33,10 @@ class _SplashScreenState extends State<SplashScreen> {
           name: credentials[1],
           username: credentials[2],
           phone: credentials[3],
-          token: credentials[4]);
+          token: credentials[4],
+          profile: credentials[5]);
 
+      debugPrint("################# $credentials ########################");
       Navigator.pushReplacementNamed(context, '/home');
     } else {
       // No credentials, navigate to login screen

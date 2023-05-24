@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rental_user/global_variables.dart';
 import 'package:rental_user/home/controllers/home_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BrandWidget extends StatelessWidget {
   const BrandWidget({super.key});
@@ -16,8 +17,12 @@ class BrandWidget extends StatelessWidget {
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
           // Go to login if there's an error
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushReplacementNamed(context, '/login');
+          WidgetsBinding.instance.addPostFrameCallback((_) async {
+            final SharedPreferences prefs =
+                await SharedPreferences.getInstance();
+
+            await prefs.remove('credentials');
+            //Navigator.pushReplacementNamed(context, '/login');
           });
 
           ScaffoldMessenger.of(context).showSnackBar(

@@ -175,23 +175,53 @@ class _OtpPageState extends State<OtpPage> {
               ],
             ),
           ),
-          ElevatedButton(
-            onPressed: _isLoading
-                ? null
-                : () async {
-                    setState(() {
-                      _isLoading = true;
-                    });
+          // ElevatedButton(
+          //   onPressed: _isLoading
+          //       ? null
+          //       : () async {
+          //           setState(() {
+          //             _isLoading = true;
+          //           });
 
-                    await widget.loginController.otp_submit(context);
+          //           await widget.loginController.otp_submit(context);
 
-                    setState(() {
-                      _isLoading = false;
-                    });
-                  },
-            child: _isLoading
-                ? const CircularProgressIndicator()
-                : const Text('Submit'),
+          //           setState(() {
+          //             _isLoading = false;
+          //           });
+          //         },
+          //   child: _isLoading
+          //       ? const CircularProgressIndicator()
+          //       : const Text('Submit'),
+          // ),
+          SizedBox(
+            width: 200,
+            height: 47,
+            child: ElevatedButton(
+              onPressed: _isLoading
+                  ? null
+                  : () async {
+                      setState(() {
+                        _isLoading = true;
+                      });
+
+                      await widget.loginController.otp_submit(context);
+
+                      setState(() {
+                        _isLoading = false;
+                      });
+                    },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: mainColor,
+                side: BorderSide.none,
+                shape: const StadiumBorder(),
+              ),
+              child: _isLoading
+                  ? const CircularProgressIndicator()
+                  : const Text(
+                      "Submit OTP",
+                      style: TextStyle(color: Colors.white),
+                    ),
+            ),
           ),
         ],
       ),

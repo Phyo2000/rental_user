@@ -1,17 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:rental_user/global_variables.dart';
 import 'package:rental_user/home/controllers/home_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ItemsWidget extends StatelessWidget {
   final bool isDetail;
+  bool? isBrand;
   String? id;
-  ItemsWidget({super.key, required this.isDetail, this.id});
+  ItemsWidget({super.key, required this.isDetail, this.id, this.isBrand});
+
+  void showTokenExpiredSnackBar(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Token expired! You need to login again."),
+        duration: Duration(seconds: 10),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: isDetail
-          ? requestBrand(context: context, brandId: id)
+          ? isBrand ?? false
+              ? requestBrand(context: context, brandId: id)
+              : requestCategories(context: context, categoryId: id)
           : requestItems(context),
       builder: (BuildContext context,
           AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
@@ -20,22 +33,20 @@ class ItemsWidget extends StatelessWidget {
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
           // return to Login if there's an error
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushReplacementNamed(context, '/login');
+          WidgetsBinding.instance.addPostFrameCallback((_) async {
+            final SharedPreferences prefs =
+                await SharedPreferences.getInstance();
+            showTokenExpiredSnackBar(context);
+
+            //await prefs.remove('credentials');
+            //Navigator.pushReplacementNamed(context, '/login');
           });
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Token expired! You need to login again."),
-              duration: Duration(seconds: 10),
-            ),
-          );
-
-          return const SizedBox();
-          //return Text('Error: ${snapshot.error}');
+          //return const SizedBox();
+          return Text('Error: ${snapshot.error}');
         } else if (snapshot.hasData) {
           final items = snapshot.data!;
-
+          debugPrint("### Here is items : $items ###");
           return GridView.count(
             childAspectRatio: 0.5,
             physics: const NeverScrollableScrollPhysics(),
@@ -106,7 +117,7 @@ class ItemsWidget extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -120,6 +131,25 @@ class ItemsWidget extends StatelessWidget {
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: mainColor),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          children: [
+                            Text(
+                              item['category']['name'].toString().length > 15
+                                  ? item['category']['name']
+                                      .toString()
+                                      .substring(0, 15)
+                                  : item['category']['name'].toString(),
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: mainColor,
+                              ),
                             ),
                           ],
                         ),

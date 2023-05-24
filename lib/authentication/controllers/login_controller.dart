@@ -189,7 +189,8 @@ class LoginController {
             response.data['data']['name'].toString(),
             response.data['data']['username'].toString(),
             response.data['data']['phone'].toString(),
-            response.data['data']['auth_token'].toString()
+            response.data['data']['auth_token'].toString(),
+            response.data['data']['profile'].toString(),
           ]);
 
           final List<String>? credentials = prefs.getStringList('credentials');
@@ -199,7 +200,8 @@ class LoginController {
               name: credentials[1],
               username: credentials[2],
               phone: credentials[3],
-              token: credentials[4]);
+              token: credentials[4],
+              profile: credentials[5]);
 
           // final userModel = UserModel(
           //     id: response.data["id"],

@@ -14,7 +14,7 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: requestCategories(context),
+      future: requestCategories(context: context),
       builder: (BuildContext context,
           AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -28,7 +28,7 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
 
             await prefs.remove('credentials');
 
-            Navigator.pushReplacementNamed(context, '/login');
+            //Navigator.pushReplacementNamed(context, '/login');
           });
 
           ScaffoldMessenger.of(context).showSnackBar(
@@ -55,23 +55,38 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.network(
-                          category['media']['media_link'],
-                          width: 40,
-                          height: 40,
-                        ),
-                        Text(
-                          category['name'],
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            color: mainColor,
+                    child: InkWell(
+                      onTap: () {
+                        String categoryId = category['_id'];
+                        String categoryName = category['name'];
+                        Map<String, dynamic> arguments = {
+                          'categoryId': categoryId,
+                          'categoryName': categoryName,
+                        };
+                        Navigator.pushNamed(
+                          context,
+                          "/categoryDetails",
+                          arguments: arguments,
+                        );
+                      },
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.network(
+                            category['media']['media_link'],
+                            width: 40,
+                            height: 40,
                           ),
-                        ),
-                      ],
+                          Text(
+                            category['name'],
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17,
+                              color: mainColor,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
               ],

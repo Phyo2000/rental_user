@@ -6,6 +6,7 @@ import 'package:rental_user/authentication/views/otp_screen.dart';
 import 'package:rental_user/authentication/views/register_screen.dart';
 import 'package:rental_user/cart/views/cart_page.dart';
 import 'package:rental_user/home/views/brand_details_screen.dart';
+import 'package:rental_user/home/views/category_details_screen.dart';
 import 'package:rental_user/items/views/items_page.dart';
 import 'package:rental_user/splash_screen.dart';
 import 'package:rental_user/user/model/user_model.dart';
@@ -53,6 +54,7 @@ class RentalApp extends StatelessWidget {
               ),
           '/cart': (context) => const CartPage(),
           '/brandDetails': (context) => const BrandDetails(),
+          '/categoryDetails': (context) => const CategoryDetails(),
           '/item': (context) => ItemPage(),
         },
       ),

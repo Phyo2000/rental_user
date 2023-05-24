@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rental_user/global_variables.dart';
 import 'package:rental_user/home/widgets/items_widget.dart';
 
-class BrandDetails extends StatelessWidget {
-  const BrandDetails({
+class CategoryDetails extends StatelessWidget {
+  const CategoryDetails({
     super.key,
   });
 
@@ -33,7 +33,7 @@ class BrandDetails extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.only(left: 20),
                   child: Text(
-                    "Brand Details",
+                    "Category Details",
                     style: TextStyle(
                       fontSize: 23,
                       fontWeight: FontWeight.bold,
@@ -94,7 +94,7 @@ class BrandDetails extends StatelessWidget {
                   margin:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                   child: Text(
-                    "Products of ${arguments['brandName']}",
+                    "Products of ${arguments['categoryName']}",
                     style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -106,8 +106,8 @@ class BrandDetails extends StatelessWidget {
                 // Items Widget
                 ItemsWidget(
                   isDetail: true,
-                  isBrand: true,
-                  id: arguments['brandId'],
+                  isBrand: false,
+                  id: arguments['categoryId'],
                 ),
               ],
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rental_user/global_variables.dart';
 import 'package:rental_user/profile/controllers/profile_controller.dart';
+import 'package:rental_user/profile/views/profile_edit_screen.dart';
 import 'package:rental_user/profile/widgets/profile_appbar.dart';
 import 'package:rental_user/profile/widgets/profile_menu.dart';
 import 'package:rental_user/user/model/user_model.dart';
@@ -37,10 +38,14 @@ class _ProfileViewState extends State<ProfileView> {
               SizedBox(
                 width: 130,
                 height: 130,
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://t3.ftcdn.net/jpg/04/98/91/96/240_F_498919631_Me4XD0pVj0tX109wnyH7FIo6FHTb5J0E.jpg"),
-                ),
+                child: (user.profile != null)
+                    ? CircleAvatar(
+                        backgroundImage: NetworkImage(user.profile.toString()),
+                      )
+                    : const CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            "https://t3.ftcdn.net/jpg/04/98/91/96/240_F_498919631_Me4XD0pVj0tX109wnyH7FIo6FHTb5J0E.jpg"),
+                      ),
               ),
               const SizedBox(height: 10),
               Text(
@@ -64,16 +69,24 @@ class _ProfileViewState extends State<ProfileView> {
                 width: 200,
                 height: 47,
                 child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: mainColor,
-                      side: BorderSide.none,
-                      shape: const StadiumBorder(),
-                    ),
-                    child: const Text(
-                      "Edit Profile",
-                      style: TextStyle(color: Colors.white),
-                    )),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const EditProfileScreen(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: mainColor,
+                    side: BorderSide.none,
+                    shape: const StadiumBorder(),
+                  ),
+                  child: const Text(
+                    "Edit Profile",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
               ),
               const SizedBox(height: 30),
               const Divider(),
