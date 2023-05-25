@@ -105,7 +105,17 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                         ),
                         InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, "/item");
+                            String productId = item['_id'];
+                            String productName = item['name'];
+                            Map<String, dynamic> arguments = {
+                              'productId': productId,
+                              'productName': productName,
+                            };
+                            Navigator.pushNamed(
+                              context,
+                              "/item",
+                              arguments: arguments,
+                            );
                           },
                           child: Container(
                             margin: const EdgeInsets.all(10),
@@ -275,7 +285,17 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                         ),
                         InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, "/item");
+                            String productId = item['_id'];
+                            String productName = item['name'];
+                            Map<String, dynamic> arguments = {
+                              'productId': productId,
+                              'productName': productName,
+                            };
+                            Navigator.pushNamed(
+                              context,
+                              "/item",
+                              arguments: arguments,
+                            );
                           },
                           child: Container(
                             margin: const EdgeInsets.all(10),

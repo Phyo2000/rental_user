@@ -21,8 +21,8 @@ class ItemAppBar extends StatelessWidget {
               color: mainColor,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20),
+          const Padding(
+            padding: EdgeInsets.only(left: 20),
             child: Text(
               "Product",
               style: TextStyle(
@@ -32,7 +32,7 @@ class ItemAppBar extends StatelessWidget {
               ),
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Icon(
             Icons.favorite,
             size: 30,

@@ -73,7 +73,7 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Image.network(
-                            category['media']['media_link'],
+                            category['media']?['media_link'] ?? '',
                             width: 40,
                             height: 40,
                           ),
