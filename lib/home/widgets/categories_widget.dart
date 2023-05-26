@@ -27,16 +27,14 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
                 await SharedPreferences.getInstance();
 
             await prefs.remove('credentials');
-
-            //Navigator.pushReplacementNamed(context, '/login');
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Token expired! You need to login again."),
+                duration: Duration(seconds: 10),
+              ),
+            );
+            Navigator.pushReplacementNamed(context, '/login');
           });
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Token expired! You need to login again."),
-              duration: Duration(seconds: 10),
-            ),
-          );
 
           return const SizedBox();
         } else if (snapshot.hasData) {
