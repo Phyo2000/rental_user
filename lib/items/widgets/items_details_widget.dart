@@ -3,6 +3,7 @@ import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:marquee/marquee.dart';
+import 'package:provider/provider.dart';
 import 'package:rental_user/items/widgets/item_appbar.dart';
 
 import 'package:rental_user/global_variables.dart';

@@ -1,6 +1,7 @@
 import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rental_user/items/widgets/item_bottom_navbar.dart';
 import 'package:rental_user/items/widgets/items_details_widget.dart';
 
@@ -19,7 +20,7 @@ class ItemPage extends StatelessWidget {
         productId: productId,
         productName: productName,
       ),
-      bottomNavigationBar: ItemBottomNavBar(),
+      bottomNavigationBar: ItemBottomNavBar(productId: productId),
     );
   }
 }
