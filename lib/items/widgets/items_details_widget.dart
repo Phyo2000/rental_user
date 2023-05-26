@@ -99,7 +99,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                         child: productDetails!['name']
                                                     .toString()
                                                     .length >
-                                                23
+                                                20
                                             ? Marquee(
                                                 text: productDetails?['name']
                                                         .toString() ??
@@ -146,20 +146,29 @@ class _ItemDetailsState extends State<ItemDetails> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      RatingBar.builder(
-                                        initialRating: 4,
-                                        minRating: 1,
-                                        direction: Axis.horizontal,
-                                        itemCount: 5,
-                                        itemSize: 25,
-                                        itemPadding: const EdgeInsets.symmetric(
-                                            horizontal: 4),
-                                        itemBuilder: (context, _) => const Icon(
-                                          Icons.star,
-                                          color: mainColor,
-                                        ),
-                                        onRatingUpdate: (index) {},
+                                      // RatingBar.builder(
+                                      //   initialRating: 4,
+                                      //   minRating: 1,
+                                      //   direction: Axis.horizontal,
+                                      //   itemCount: 5,
+                                      //   itemSize: 25,
+                                      //   itemPadding: const EdgeInsets.symmetric(
+                                      //       horizontal: 4),
+                                      //   itemBuilder: (context, _) => const Icon(
+                                      //     Icons.star,
+                                      //     color: mainColor,
+                                      //   ),
+                                      //   onRatingUpdate: (index) {},
+                                      // ),
+
+                                      Text(
+                                        "Energy Consumption : ${productDetails?['energy_comsumption'] ?? ''}",
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            color: mainColor,
+                                            fontWeight: FontWeight.bold),
                                       ),
+
                                       Row(
                                         children: [
                                           Container(
@@ -221,14 +230,27 @@ class _ItemDetailsState extends State<ItemDetails> {
                                 ),
                                 Padding(
                                   padding:
-                                      const EdgeInsets.symmetric(vertical: 12),
-                                  child: Text(
-                                    "This is more detailed description of the product. Here I will call the description of the product from api. Thanks.",
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      color: mainColor,
-                                    ),
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: Row(
+                                    children: [
+                                      const Text(
+                                        "Brand : ",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: mainColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        productDetails?['brand']?['name'] ?? '',
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            color: mainColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 Padding(
@@ -236,7 +258,34 @@ class _ItemDetailsState extends State<ItemDetails> {
                                       const EdgeInsets.symmetric(vertical: 8),
                                   child: Row(
                                     children: [
-                                      Text(
+                                      const Text(
+                                        "Category : ",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: mainColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      for (final category
+                                          in productDetails!['category'])
+                                        Text(
+                                          category['name'] ?? '',
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              color: mainColor,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: Row(
+                                    children: [
+                                      const Text(
                                         "Size : ",
                                         style: TextStyle(
                                             fontSize: 18,
@@ -248,10 +297,14 @@ class _ItemDetailsState extends State<ItemDetails> {
                                       ),
                                       Row(
                                         children: [
-                                          for (int i = 5; i < 10; i++)
+                                          for (int i = 0;
+                                              i <
+                                                  productDetails?['size']
+                                                      .length;
+                                              i++)
                                             Container(
                                               height: 30,
-                                              width: 30,
+                                              width: 100,
                                               alignment: Alignment.center,
                                               margin:
                                                   const EdgeInsets.symmetric(
@@ -269,8 +322,196 @@ class _ItemDetailsState extends State<ItemDetails> {
                                                     ),
                                                   ]),
                                               child: Text(
-                                                i.toString(),
-                                                style: TextStyle(
+                                                productDetails?['size'][i]
+                                                        .toString() ??
+                                                    '',
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: mainColor,
+                                                ),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: Row(
+                                    children: [
+                                      const Text(
+                                        "Product Code : ",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: mainColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        productDetails?['product_code'] ?? '',
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            color: mainColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: Row(
+                                    children: [
+                                      const Text(
+                                        "Duration Date : ",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: mainColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        "${productDetails?['duration_date'] ?? ''} days",
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            color: mainColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: Row(
+                                    children: [
+                                      const Text(
+                                        "Insurence Date : ",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: mainColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        "${productDetails?['insurence_date'] ?? ''} days",
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            color: mainColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: Row(
+                                    children: [
+                                      const Text(
+                                        "Business : ",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: mainColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      for (final business
+                                          in productDetails!['business'])
+                                        Text(
+                                          business['name'] ?? '',
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              color: mainColor,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: Row(
+                                    children: [
+                                      const Text(
+                                        "Vendor : ",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: mainColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        productDetails?['product_code'] ?? '',
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            color: mainColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: Row(
+                                    children: [
+                                      const Text(
+                                        "Extra devices : ",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: mainColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          for (int i = 0;
+                                              i <
+                                                  productDetails?[
+                                                          'extra_device']
+                                                      .length;
+                                              i++)
+                                            Container(
+                                              height: 30,
+                                              width: 100,
+                                              alignment: Alignment.center,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.grey
+                                                          .withOpacity(0.5),
+                                                      spreadRadius: 2,
+                                                      blurRadius: 8,
+                                                    ),
+                                                  ]),
+                                              child: Text(
+                                                productDetails?['extra_device']
+                                                            [i]
+                                                        .toString() ??
+                                                    '',
+                                                style: const TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold,
                                                   color: mainColor,
@@ -323,6 +564,18 @@ class _ItemDetailsState extends State<ItemDetails> {
                                         ],
                                       ),
                                     ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                  child: Text(
+                                    productDetails?['description'],
+                                    textAlign: TextAlign.justify,
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                      color: mainColor,
+                                    ),
                                   ),
                                 ),
                               ],

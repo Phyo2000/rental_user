@@ -19,7 +19,7 @@ class ItemPage extends StatelessWidget {
         productId: productId,
         productName: productName,
       ),
-      bottomNavigationBar: const ItemBottomNavBar(),
+      bottomNavigationBar: ItemBottomNavBar(),
     );
   }
 }
