@@ -1,92 +1,123 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:rental_user/global_variables.dart';
 import 'package:rental_user/items/controllers/items_controller.dart';
+import 'dart:convert';
 
-class ItemBottomNavBar extends StatelessWidget {
-  String productId;
-  ItemBottomNavBar({super.key, required this.productId});
+import 'package:rental_user/items/models/rent_products_model.dart';
+
+class ItemBottomNavBar extends StatefulWidget {
+  Map<String, dynamic>? productDetails;
+
+  ItemBottomNavBar({super.key, required this.productDetails});
+
+  @override
+  State<ItemBottomNavBar> createState() => _ItemBottomNavBarState();
+}
+
+class _ItemBottomNavBarState extends State<ItemBottomNavBar> {
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic>? productDetails;
+    String rawData = '''
+{
+  "product": [
+    {
+      "product_id": "${widget.productDetails!['_id']}",
+      "rent_duration": "${widget.productDetails!['duration_date']}",
+      "size": "medium",
+      "color": "white",
+      "qty": "1"
+    }
+  ],
+  "phone": "09768192083",
+  "name": "Phyo Aung Zay",
+  "address": "Yangon",
+  "notes": "Hold on I still want you."
+}
+''';
 
-    return FutureBuilder<List<Map<String, dynamic>>>(
-      future: requestItemDetails(context: context, productId: productId),
-      builder: (BuildContext context,
-          AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          // Show a loading indicator while waiting for the data
-          return const CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          return const SizedBox();
-        } else if (snapshot.hasData) {
-          final details = snapshot.data!;
-          for (final detail in details) {
-            if (detail['_id'] == productId) {
-              productDetails = detail;
-              break;
-            }
-          }
-          return BottomAppBar(
-            child: Container(
-              height: 70,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 3,
-                    blurRadius: 10,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
+// Convert the raw data to Dart objects
+    Map<String, dynamic> jsonData = json.decode(rawData);
+    RentalRequest rentalRequest = RentalRequest.fromJson(jsonData);
+
+    //final a = json.encode(rentalRequest);
+    debugPrint("######## ${widget.productDetails!['_id']} ######");
+    debugPrint("######## ${widget.productDetails!['duration_date']} ######");
+
+    final size = jsonData['product'];
+    for (final s in size) {
+      debugPrint(s['product_id']);
+    }
+
+    //debugPrint("############## ${jsonData['product']} #############");
+    //debugPrint("############## ${a.toString()} #############");
+
+    return BottomAppBar(
+      child: Container(
+        height: 70,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 3,
+              blurRadius: 10,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "\$ ${widget.productDetails?['price'].toString() ?? ''}",
+              style: const TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: mainColor,
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "\$ ${productDetails?['price'].toString() ?? ''}",
-                    style: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: mainColor,
-                    ),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(CupertinoIcons.cart_badge_plus),
-                    label: const Text(
+            ),
+            ElevatedButton.icon(
+              onPressed: _isLoading
+                  ? null
+                  : () async {
+                      setState(() {
+                        _isLoading = true;
+                      });
+                      await rentItems(context, rentalRequest);
+                      setState(() {
+                        _isLoading = false;
+                      });
+                    },
+              icon: const Icon(CupertinoIcons.cart_badge_plus),
+              label: _isLoading
+                  ? const CircularProgressIndicator()
+                  : const Text(
                       "Add To Rent",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(mainColor),
-                      padding: MaterialStateProperty.all(
-                        const EdgeInsets.symmetric(
-                            vertical: 13, horizontal: 15),
-                      ),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                    ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(mainColor),
+                padding: MaterialStateProperty.all(
+                  const EdgeInsets.symmetric(vertical: 13, horizontal: 15),
+                ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
                   ),
-                ],
+                ),
               ),
             ),
-          );
-        } else {
-          return const Text('No data available');
-        }
-      },
+          ],
+        ),
+      ),
     );
   }
 }

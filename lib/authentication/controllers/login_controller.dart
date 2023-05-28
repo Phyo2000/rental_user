@@ -73,6 +73,14 @@ class LoginController {
             debugPrint(
                 "################## SUCCESSFULLY REGISTERED ####################");
             debugPrint(response.data['otp'].toString());
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  response.data['otp'].toString(),
+                ),
+                duration: const Duration(seconds: 10),
+              ),
+            );
 
             Navigator.pushReplacementNamed(context, '/otp');
           } else {
