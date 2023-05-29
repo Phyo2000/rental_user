@@ -1,7 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rental_user/cart/widgets/cart_widget.dart';
+import 'package:rental_user/cart/views/cart_page.dart';
 import 'package:rental_user/global_variables.dart';
 import 'package:rental_user/home/widgets/home_widget.dart';
 import 'package:rental_user/profile/views/profile_screen.dart';
@@ -71,7 +71,7 @@ Widget getWidget({required int index}) {
       widget = const Home();
       break;
     case 1:
-      widget = const CartView();
+      widget = const CartPage();
       break;
     case 3:
       widget = const ProfileView();

@@ -12,11 +12,9 @@ class CartAppBar extends StatelessWidget {
       child: Row(
         children: [
           InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
+            onTap: () {},
             child: const Icon(
-              Icons.arrow_back,
+              Icons.shopping_cart,
               size: 30,
               color: mainColor,
             ),
@@ -24,7 +22,7 @@ class CartAppBar extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.only(left: 20),
             child: Text(
-              "Cart",
+              "Your Rented Product List",
               style: TextStyle(
                 fontSize: 23,
                 fontWeight: FontWeight.bold,
