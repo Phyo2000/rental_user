@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rental_user/authentication/custom_config/utils.dart';
 import 'package:rental_user/items/models/rent_products_model.dart';
-import 'package:rental_user/main.dart';
 import 'package:rental_user/user/model/user_model.dart';
 
 final dio = Dio();
@@ -47,7 +46,7 @@ Future<void> rentItems(
     final response = await dio.post(
       "$mainUrl/rent/products",
       queryParameters: modelUser.toJson(),
-      data: json.encode(rentalRequest),
+      data: rentalRequest,
       options: Options(
         headers: {
           'Authorization': 'Bearer $token',

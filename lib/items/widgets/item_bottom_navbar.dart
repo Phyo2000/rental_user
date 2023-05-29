@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rental_user/global_variables.dart';
 import 'package:rental_user/items/controllers/items_controller.dart';
 import 'dart:convert';
 
 import 'package:rental_user/items/models/rent_products_model.dart';
+import 'package:rental_user/user/model/user_model.dart';
 
 class ItemBottomNavBar extends StatefulWidget {
   Map<String, dynamic>? productDetails;
@@ -20,39 +22,25 @@ class _ItemBottomNavBarState extends State<ItemBottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    String rawData = '''
-{
-  "product": [
-    {
-      "product_id": "${widget.productDetails!['_id']}",
-      "rent_duration": "${widget.productDetails!['duration_date']}",
-      "size": "medium",
-      "color": "white",
-      "qty": "1"
-    }
-  ],
-  "phone": "09768192083",
-  "name": "Phyo Aung Zay",
-  "address": "Yangon",
-  "notes": "Hold on I still want you."
-}
-''';
+    ModelUser modelUser = Provider.of<ModelUser>(context, listen: false);
+    final UserModel user = modelUser.user;
+    final String token = user.token;
 
-// Convert the raw data to Dart objects
-    Map<String, dynamic> jsonData = json.decode(rawData);
-    RentalRequest rentalRequest = RentalRequest.fromJson(jsonData);
-
-    //final a = json.encode(rentalRequest);
-    debugPrint("######## ${widget.productDetails!['_id']} ######");
-    debugPrint("######## ${widget.productDetails!['duration_date']} ######");
-
-    final size = jsonData['product'];
-    for (final s in size) {
-      debugPrint(s['product_id']);
-    }
-
-    //debugPrint("############## ${jsonData['product']} #############");
-    //debugPrint("############## ${a.toString()} #############");
+    RentalRequest rentalRequest = RentalRequest(
+      products: [
+        Product(
+          productId: widget.productDetails!['_id'],
+          rentDuration: widget.productDetails!['duration_date'],
+          size: 'medium',
+          color: 'white',
+          qty: '1',
+        ),
+      ],
+      phone: user.phone,
+      name: user.name,
+      address: 'Yangon',
+      notes: 'Hold on I still want you.',
+    );
 
     return BottomAppBar(
       child: Container(

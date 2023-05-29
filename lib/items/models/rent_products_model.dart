@@ -13,14 +13,14 @@ class Product {
     required this.qty,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
-      productId: json['product_id'],
-      rentDuration: json['rent_duration'],
-      size: json['size'],
-      color: json['color'],
-      qty: json['qty'],
-    );
+  Map<String, dynamic> toJson() {
+    return {
+      'product_id': productId,
+      'rent_duration': rentDuration,
+      'size': size,
+      'color': color,
+      'qty': qty,
+    };
   }
 }
 
@@ -39,17 +39,13 @@ class RentalRequest {
     required this.notes,
   });
 
-  factory RentalRequest.fromJson(Map<String, dynamic> json) {
-    List<Product> products = (json['product'] as List<dynamic>)
-        .map((productJson) => Product.fromJson(productJson))
-        .toList();
-
-    return RentalRequest(
-      products: products,
-      phone: json['phone'],
-      name: json['name'],
-      address: json['address'],
-      notes: json['notes'],
-    );
+  Map<String, dynamic> toJson() {
+    return {
+      'product': products.map((product) => product.toJson()).toList(),
+      'phone': phone,
+      'name': name,
+      'address': address,
+      'notes': notes,
+    };
   }
 }
