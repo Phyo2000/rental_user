@@ -81,7 +81,7 @@ Future<List<Map<String, dynamic>>> requestItems(BuildContext context) async {
 
   final data = response.data as Map<String, dynamic>;
   final items = data['data'];
-  debugPrint("####### Item List : $items #######");
+  debugPrint("####### Item List from RI : $items #######");
 
   if (items != null && items is List<dynamic>) {
     return items.cast<Map<String, dynamic>>().toList();

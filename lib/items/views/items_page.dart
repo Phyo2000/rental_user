@@ -60,7 +60,7 @@ class _ItemPageState extends State<ItemPage> {
               Navigator.pushReplacementNamed(context, '/login');
             });
 
-            return SizedBox();
+            return const SizedBox();
           } else if (snapshot.hasData) {
             final details = snapshot.data!;
             for (final detail in details) {
