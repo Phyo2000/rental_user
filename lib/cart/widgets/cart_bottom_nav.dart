@@ -16,7 +16,7 @@ class CartBottomNavBar extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   "Total : ",
                   style: TextStyle(
                       color: mainColor,
@@ -38,7 +38,7 @@ class CartBottomNavBar extends StatelessWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                   color: mainColor, borderRadius: BorderRadius.circular(20)),
-              child: Text(
+              child: const Text(
                 "Check out",
                 style: TextStyle(
                     fontSize: 18,

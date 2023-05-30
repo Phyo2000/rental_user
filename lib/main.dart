@@ -55,7 +55,7 @@ class RentalApp extends StatelessWidget {
           '/cart': (context) => const CartPage(),
           '/brandDetails': (context) => const BrandDetails(),
           '/categoryDetails': (context) => const CategoryDetails(),
-          '/item': (context) => ItemPage(),
+          '/item': (context) => const ItemPage(),
         },
       ),
     );

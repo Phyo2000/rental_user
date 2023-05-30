@@ -42,69 +42,67 @@ class _ItemBottomNavBarState extends State<ItemBottomNavBar> {
       notes: 'Hold on I still want you.',
     );
 
-    return BottomAppBar(
-      child: Container(
-        height: 70,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 3,
-              blurRadius: 10,
-              offset: const Offset(0, 3),
+    return Container(
+      height: 70,
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 3,
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "\$ ${widget.productDetails?['price'].toString() ?? ''}",
+            style: const TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: mainColor,
             ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "\$ ${widget.productDetails?['price'].toString() ?? ''}",
-              style: const TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                color: mainColor,
-              ),
-            ),
-            ElevatedButton.icon(
-              onPressed: _isLoading
-                  ? null
-                  : () async {
-                      setState(() {
-                        _isLoading = true;
-                      });
-                      await rentItems(context, rentalRequest);
-                      setState(() {
-                        _isLoading = false;
-                      });
-                    },
-              icon: const Icon(CupertinoIcons.cart_badge_plus),
-              label: _isLoading
-                  ? const CircularProgressIndicator()
-                  : const Text(
-                      "Add To Rent",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+          ),
+          ElevatedButton.icon(
+            onPressed: _isLoading
+                ? null
+                : () async {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    await rentItems(context, rentalRequest);
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  },
+            icon: const Icon(CupertinoIcons.cart_badge_plus),
+            label: _isLoading
+                ? const CircularProgressIndicator()
+                : const Text(
+                    "Add To Rent",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(mainColor),
-                padding: MaterialStateProperty.all(
-                  const EdgeInsets.symmetric(vertical: 13, horizontal: 15),
-                ),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
                   ),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(mainColor),
+              padding: MaterialStateProperty.all(
+                const EdgeInsets.symmetric(vertical: 13, horizontal: 15),
+              ),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

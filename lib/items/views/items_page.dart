@@ -71,15 +71,16 @@ class _ItemPageState extends State<ItemPage> {
             }
 
             return productDetails != null
-                ? Column(
+                ? Stack(
                     children: [
-                      Expanded(
-                        child: ItemDetails(
-                            productId: productId,
-                            productName: productName,
-                            productDetails: productDetails),
+                      ItemDetails(
+                          productId: productId,
+                          productName: productName,
+                          productDetails: productDetails),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: ItemBottomNavBar(productDetails: productDetails),
                       ),
-                      ItemBottomNavBar(productDetails: productDetails),
                     ],
                   )
                 : const Text('No Data available.');

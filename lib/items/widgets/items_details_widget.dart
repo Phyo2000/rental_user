@@ -529,6 +529,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                   ),
                 ),
               ),
+              Text('Here is testing'),
             ],
           )
         : Text("No Data");
