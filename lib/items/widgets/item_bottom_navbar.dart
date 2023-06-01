@@ -33,7 +33,7 @@ class _ItemBottomNavBarState extends State<ItemBottomNavBar> {
           rentDuration: widget.productDetails!['duration_date'],
           size: 'medium',
           color: 'white',
-          qty: '1',
+          qty: '2',
         ),
       ],
       phone: user.phone,

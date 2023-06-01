@@ -64,7 +64,8 @@ Future<List<Map<String, dynamic>>> requestBrand(
   }
 }
 
-Future<List<Map<String, dynamic>>> requestItems(BuildContext context) async {
+Future<List<Map<String, dynamic>>> requestItems(
+    {required BuildContext context}) async {
   ModelUser modelUser = Provider.of<ModelUser>(context, listen: false);
   final UserModel user = modelUser.user;
   final String token = user.token;
@@ -98,4 +99,31 @@ Future<List<Map<String, dynamic>>> requestItems(BuildContext context) async {
   // } else {
   //   return []; // Return an empty list if the data is null or not a list
   // }
+}
+
+Future<List<Map<String, dynamic>>> searchItems(
+    BuildContext context, String filterName) async {
+  ModelUser modelUser = Provider.of<ModelUser>(context, listen: false);
+  final UserModel user = modelUser.user;
+  final String token = user.token;
+
+  final response = await dio.get(
+    '$mainUrl/products/search',
+    data: {'user_id': user.id, 'filter_name': filterName},
+    options: Options(
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    ),
+  );
+
+  final data = response.data as Map<String, dynamic>;
+  final items = data['data'];
+  debugPrint("####### Item List from Search : $items #######");
+
+  if (items != null && items is List<dynamic>) {
+    return items.cast<Map<String, dynamic>>().toList();
+  } else {
+    return []; // Return an empty list if the data is null or not a list
+  }
 }

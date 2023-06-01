@@ -220,6 +220,32 @@ class _ItemDetailsState extends State<RentProductDetails> {
                             child: Row(
                               children: [
                                 const Text(
+                                  "Price : ",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: mainColor,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  widget.productDetails?['product']
+                                          ?['price/M'] ??
+                                      '',
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      color: mainColor,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Row(
+                              children: [
+                                const Text(
                                   "Quantity : ",
                                   style: TextStyle(
                                       fontSize: 18,
@@ -257,7 +283,7 @@ class _ItemDetailsState extends State<RentProductDetails> {
                                 ),
                                 Text(
                                   widget.productDetails?['product']
-                                          ['total_amount'] ??
+                                          ['total_pice'] ??
                                       '',
                                   style: const TextStyle(
                                       fontSize: 18,

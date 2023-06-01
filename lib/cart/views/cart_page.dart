@@ -28,10 +28,11 @@ class CartPage extends StatelessWidget {
               final items = snapshot.data!;
 
               return ListView(
+                //shrinkWrap: true,
                 children: [
                   const CartAppBar(),
                   Container(
-                    height: 700,
+                    height: 680,
                     padding: const EdgeInsets.only(top: 15),
                     decoration: const BoxDecoration(
                       color: Color(0xFFEDECF2),
@@ -40,12 +41,8 @@ class CartPage extends StatelessWidget {
                         topRight: Radius.circular(35),
                       ),
                     ),
-                    child: Column(
-                      children: [
-                        CartItems(
-                          items: items,
-                        ),
-                      ],
+                    child: CartItems(
+                      items: items,
                     ),
                   ),
                 ],
