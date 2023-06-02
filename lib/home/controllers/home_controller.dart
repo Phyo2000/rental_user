@@ -6,33 +6,33 @@ import 'package:rental_user/user/model/user_model.dart';
 
 final dio = Dio();
 
-Future<List<Map<String, dynamic>>> requestCategories(
-    {required BuildContext context, String? categoryId}) async {
-  ModelUser modelUser = Provider.of<ModelUser>(context, listen: false);
-  final UserModel user = modelUser.user;
-  final String token = user.token;
+// Future<List<Map<String, dynamic>>> requestCategories(
+//     {required BuildContext context, String? categoryId}) async {
+//   ModelUser modelUser = Provider.of<ModelUser>(context, listen: false);
+//   final UserModel user = modelUser.user;
+//   final String token = user.token;
 
-  final response = await dio.get(
-    categoryId != null && categoryId.isNotEmpty
-        ? '$mainUrl/categories/$categoryId'
-        : '$mainUrl/categories',
-    data: modelUser.toJson(),
-    options: Options(
-      headers: {
-        'Authorization': 'Bearer $token',
-      },
-    ),
-  );
+//   final response = await dio.get(
+//     categoryId != null && categoryId.isNotEmpty
+//         ? '$mainUrl/categories/$categoryId'
+//         : '$mainUrl/categories',
+//     data: modelUser.toJson(),
+//     options: Options(
+//       headers: {
+//         'Authorization': 'Bearer $token',
+//       },
+//     ),
+//   );
 
-  final data = response.data as Map<String, dynamic>;
-  final categories = data['data'];
+//   final data = response.data as Map<String, dynamic>;
+//   final categories = data['data'];
 
-  if (categories != null && categories is List<dynamic>) {
-    return categories.cast<Map<String, dynamic>>().toList();
-  } else {
-    return []; // Return an empty list if the data is null or not a list
-  }
-}
+//   if (categories != null && categories is List<dynamic>) {
+//     return categories.cast<Map<String, dynamic>>().toList();
+//   } else {
+//     return []; // Return an empty list if the data is null or not a list
+//   }
+// }
 
 Future<List<Map<String, dynamic>>> requestBrand(
     {required BuildContext context, String? brandId}) async {

@@ -36,7 +36,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
       future: widget.isDetail
           ? widget.isBrand ?? false
               ? requestBrand(context: context, brandId: widget.id)
-              : requestCategories(context: context, categoryId: widget.id)
+              : null //requestCategories(context: context, categoryId: widget.id)
           : widget.isSearch ?? false
               ? requestItems(context: context)
               : requestItems(context: context),

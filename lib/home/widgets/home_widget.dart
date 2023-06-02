@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rental_user/global_variables.dart';
+import 'package:rental_user/home/controllers/brand_controller.dart';
+import 'package:rental_user/home/controllers/category_controller.dart';
 import 'package:rental_user/home/controllers/home_controller.dart';
+import 'package:rental_user/home/models/brand_model.dart';
+import 'package:rental_user/home/models/categories_model.dart';
 import 'package:rental_user/home/widgets/brand_list_widget.dart';
 import 'package:rental_user/home/widgets/categories_widget.dart';
 import 'package:rental_user/home/widgets/home_appbar.dart';
@@ -16,9 +20,43 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final CategoryController _categoryController = CategoryController();
+  final BrandController _brandController = BrandController();
+  List<Categories> _categories = [];
+  List<Brands> _brands = [];
+
   bool theFlash = false;
   bool _isLoading = false;
   String? searchName;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCategories();
+    fetchBrands();
+  }
+
+  Future<void> fetchCategories() async {
+    List<Categories> fetchedCategories =
+        await _categoryController.requestCategories(
+      context: context,
+      categoryId: null, // Pass any category ID if needed
+    );
+
+    setState(() {
+      _categories = fetchedCategories;
+    });
+  }
+
+  Future<void> fetchBrands() async {
+    List<Brands> fetchedBrands = await _brandController.requestBrands(
+      context: context,
+    );
+
+    setState(() {
+      _brands = fetchedBrands;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +188,9 @@ class _HomeState extends State<Home> {
 
                         // Categories Widget
 
-                        const CategoriesWidget(),
+                        CategoriesWidget(
+                          categories: _categories,
+                        ),
 
                         // Brand
 
@@ -168,7 +208,9 @@ class _HomeState extends State<Home> {
                           ),
                         ),
 
-                        const BrandWidget(),
+                        BrandWidget(
+                          brands: _brands,
+                        ),
 
                         // Items
 

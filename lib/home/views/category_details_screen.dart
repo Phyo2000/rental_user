@@ -1,11 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:rental_user/global_variables.dart';
-import 'package:rental_user/home/widgets/items_widget.dart';
+import 'package:rental_user/home/controllers/category_details_controller.dart';
+import 'package:rental_user/home/models/item_details_model.dart';
+import 'package:rental_user/home/widgets/item_widget.dart';
 
-class CategoryDetails extends StatelessWidget {
-  const CategoryDetails({
-    super.key,
-  });
+class CategoryDetails extends StatefulWidget {
+  final String id;
+  const CategoryDetails({super.key, required this.id});
+
+  @override
+  State<CategoryDetails> createState() => _CategoryDetailsState();
+}
+
+class _CategoryDetailsState extends State<CategoryDetails> {
+  CategoryDetailController _categoryDetailController =
+      CategoryDetailController();
+  List<ItemDetail> _categoryDetails = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCategoryDetails();
+  }
+
+  Future<void> fetchCategoryDetails() async {
+    List<ItemDetail> fetchedCategoryDetails = await _categoryDetailController
+        .requestCategoryDetails(context: context, categoryId: widget.id);
+
+    setState(() {
+      _categoryDetails = fetchedCategoryDetails;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,35 +82,35 @@ class CategoryDetails extends StatelessWidget {
             ),
             child: Column(
               children: [
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15),
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(left: 5),
-                        height: 50,
-                        width: 300,
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Search here..."),
-                        ),
-                      ),
-                      const Spacer(),
-                      const Icon(
-                        Icons.search_sharp,
-                        size: 27,
-                        color: mainColor,
-                      ),
-                    ],
-                  ),
-                ),
+                // Container(
+                //   margin: const EdgeInsets.symmetric(horizontal: 15),
+                //   padding: const EdgeInsets.symmetric(horizontal: 15),
+                //   height: 50,
+                //   decoration: BoxDecoration(
+                //     color: Colors.white,
+                //     borderRadius: BorderRadius.circular(30),
+                //   ),
+                //   // child: Row(
+                //   children: [
+                //     Container(
+                //       margin: const EdgeInsets.only(left: 5),
+                //       height: 50,
+                //       width: 300,
+                //       child: TextFormField(
+                //         decoration: const InputDecoration(
+                //             border: InputBorder.none,
+                //             hintText: "Search here..."),
+                //       ),
+                //     ),
+                //     const Spacer(),
+                //     const Icon(
+                //       Icons.search_sharp,
+                //       size: 27,
+                //       color: mainColor,
+                //     ),
+                //   ],
+                // ),
+                //),
 
                 // Items
 
@@ -103,12 +128,15 @@ class CategoryDetails extends StatelessWidget {
                   ),
                 ),
 
-                // Items Widget
-                ItemsWidget(
-                  isDetail: true,
-                  isBrand: false,
-                  id: arguments['categoryId'],
+                ItemDetailWidget(
+                  itemDetails: _categoryDetails,
                 ),
+                // Items Widget
+                // ItemsWidget(
+                //   isDetail: true,
+                //   isBrand: false,
+                //   id: arguments['categoryId'],
+                // ),
               ],
             ),
           ),
