@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rental_user/global_variables.dart';
-import 'package:rental_user/home/models/item_details_model.dart';
+import 'package:rental_user/home/models/item_model.dart';
 
 class ItemDetailWidget extends StatelessWidget {
   final List<ItemDetail> itemDetails;
@@ -90,7 +90,7 @@ class ItemDetailWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 8),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    (item.name != null && item.name.length > 15)
+                    (item.name.length > 15)
                         ? item.name.substring(0, 15)
                         : item.name,
                     style: const TextStyle(

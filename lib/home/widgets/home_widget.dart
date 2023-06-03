@@ -3,11 +3,14 @@ import 'package:rental_user/global_variables.dart';
 import 'package:rental_user/home/controllers/brand_controller.dart';
 import 'package:rental_user/home/controllers/category_controller.dart';
 import 'package:rental_user/home/controllers/home_controller.dart';
+import 'package:rental_user/home/controllers/item_controller.dart';
 import 'package:rental_user/home/models/brand_model.dart';
 import 'package:rental_user/home/models/categories_model.dart';
+import 'package:rental_user/home/models/item_model.dart';
 import 'package:rental_user/home/widgets/brand_list_widget.dart';
 import 'package:rental_user/home/widgets/categories_widget.dart';
 import 'package:rental_user/home/widgets/home_appbar.dart';
+import 'package:rental_user/home/widgets/item_widget.dart';
 import 'package:rental_user/home/widgets/items_widget.dart';
 
 class Home extends StatefulWidget {
@@ -22,8 +25,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final CategoryController _categoryController = CategoryController();
   final BrandController _brandController = BrandController();
+  final ItemController _itemController = ItemController();
+
   List<Categories> _categories = [];
   List<Brands> _brands = [];
+  List<ItemDetail> _items = [];
 
   bool theFlash = false;
   bool _isLoading = false;
@@ -34,6 +40,7 @@ class _HomeState extends State<Home> {
     super.initState();
     fetchCategories();
     fetchBrands();
+    fetchItems();
   }
 
   Future<void> fetchCategories() async {
@@ -55,6 +62,16 @@ class _HomeState extends State<Home> {
 
     setState(() {
       _brands = fetchedBrands;
+    });
+  }
+
+  Future<void> fetchItems() async {
+    List<ItemDetail> fetchedItems = await _itemController.requestItems(
+      context: context,
+    );
+
+    setState(() {
+      _items = fetchedItems;
     });
   }
 
@@ -229,8 +246,9 @@ class _HomeState extends State<Home> {
                         ),
 
                         //Items Widget
-                        ItemsWidget(
-                          isDetail: false,
+
+                        ItemDetailWidget(
+                          itemDetails: _items,
                         ),
                       ],
                     ), //const ItemList(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rental_user/global_variables.dart';
 import 'package:rental_user/home/controllers/category_details_controller.dart';
-import 'package:rental_user/home/models/item_details_model.dart';
+import 'package:rental_user/home/models/item_model.dart';
 import 'package:rental_user/home/widgets/item_widget.dart';
 
 class CategoryDetails extends StatefulWidget {
@@ -13,7 +13,7 @@ class CategoryDetails extends StatefulWidget {
 }
 
 class _CategoryDetailsState extends State<CategoryDetails> {
-  CategoryDetailController _categoryDetailController =
+  final CategoryDetailController _categoryDetailController =
       CategoryDetailController();
   List<ItemDetail> _categoryDetails = [];
 

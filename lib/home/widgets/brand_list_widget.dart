@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rental_user/global_variables.dart';
 import 'package:rental_user/home/controllers/home_controller.dart';
 import 'package:rental_user/home/models/brand_model.dart';
+import 'package:rental_user/home/views/brand_details_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BrandWidget extends StatelessWidget {
@@ -34,10 +35,14 @@ class BrandWidget extends StatelessWidget {
                       'brandId': brandId,
                       'brandName': brandName,
                     };
-                    Navigator.pushNamed(
+                    Navigator.push(
                       context,
-                      "/brandDetails",
-                      arguments: arguments,
+                      MaterialPageRoute(
+                        builder: (context) => BrandDetails(
+                          id: brandId,
+                        ),
+                        settings: RouteSettings(arguments: arguments),
+                      ),
                     );
                   },
                   child: Container(

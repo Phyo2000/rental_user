@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rental_user/authentication/custom_config/utils.dart';
-import 'package:rental_user/home/models/item_details_model.dart';
+import 'package:rental_user/home/models/item_model.dart';
 import 'package:rental_user/user/model/user_model.dart';
 
 final dio = Dio();

@@ -1,11 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:rental_user/global_variables.dart';
-import 'package:rental_user/home/widgets/items_widget.dart';
+import 'package:rental_user/home/controllers/brand_details_controller.dart';
+import 'package:rental_user/home/models/item_model.dart';
+import 'package:rental_user/home/widgets/item_widget.dart';
 
-class BrandDetails extends StatelessWidget {
-  const BrandDetails({
-    super.key,
-  });
+class BrandDetails extends StatefulWidget {
+  final String id;
+
+  const BrandDetails({super.key, required this.id});
+
+  @override
+  State<BrandDetails> createState() => _BrandDetailsState();
+}
+
+class _BrandDetailsState extends State<BrandDetails> {
+  final BrandDetailController _brandDetailController = BrandDetailController();
+  List<ItemDetail> _brandDetails = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchBrandDetails();
+  }
+
+  Future<void> fetchBrandDetails() async {
+    List<ItemDetail> fetchedCategoryDetails = await _brandDetailController
+        .requestBrandDetails(context: context, brandId: widget.id);
+
+    setState(() {
+      _brandDetails = fetchedCategoryDetails;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,10 +129,8 @@ class BrandDetails extends StatelessWidget {
                 ),
 
                 // Items Widget
-                ItemsWidget(
-                  isDetail: true,
-                  isBrand: true,
-                  id: arguments['brandId'],
+                ItemDetailWidget(
+                  itemDetails: _brandDetails,
                 ),
               ],
             ),
