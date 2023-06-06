@@ -66,6 +66,7 @@ class ItemDetailWidget extends StatelessWidget {
                       'productId': productId,
                       'productName': productName,
                     };
+
                     Navigator.pushNamed(
                       context,
                       "/item",

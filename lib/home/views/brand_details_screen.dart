@@ -24,12 +24,16 @@ class _BrandDetailsState extends State<BrandDetails> {
   }
 
   Future<void> fetchBrandDetails() async {
-    List<ItemDetail> fetchedCategoryDetails = await _brandDetailController
-        .requestBrandDetails(context: context, brandId: widget.id);
+    try {
+      List<ItemDetail> fetchedCategoryDetails = await _brandDetailController
+          .requestBrandDetails(context: context, brandId: widget.id);
 
-    setState(() {
-      _brandDetails = fetchedCategoryDetails;
-    });
+      setState(() {
+        _brandDetails = fetchedCategoryDetails;
+      });
+    } catch (e) {
+      const Text("Error Fetching Category.");
+    }
   }
 
   @override

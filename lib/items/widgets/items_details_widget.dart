@@ -3,14 +3,15 @@ import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:marquee/marquee.dart';
+import 'package:rental_user/items/models/product_details_model.dart';
 import 'package:rental_user/items/widgets/item_appbar.dart';
 import 'package:rental_user/global_variables.dart';
 
 class ItemDetails extends StatefulWidget {
   final String productId, productName;
-  Map<String, dynamic>? productDetails;
+  final ProductDetails productDetails;
 
-  ItemDetails(
+  const ItemDetails(
       {super.key,
       required this.productId,
       required this.productName,
@@ -39,9 +40,7 @@ class _ItemDetailsState extends State<ItemDetails> {
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Image.network(
-                  widget.productDetails?['main_thambnail']?['media_link']
-                          .toString() ??
-                      '',
+                  widget.productDetails.imgLink,
                   height: 300,
                 ),
               ),
@@ -63,14 +62,13 @@ class _ItemDetailsState extends State<ItemDetails> {
                               SizedBox(
                                 height: 32,
                                 width: 350,
-                                child: widget.productDetails!['name']
+                                child: widget.productDetails.name
                                             .toString()
                                             .length >
                                         20
                                     ? Marquee(
-                                        text: widget.productDetails?['name']
-                                                .toString() ??
-                                            '', // Here is Product Name
+                                        text: widget.productDetails
+                                            .name, // Here is Product Name
                                         style: const TextStyle(
                                           fontSize: 28,
                                           color: mainColor,
@@ -91,9 +89,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                         decelerationCurve: Curves.easeOut,
                                       )
                                     : Text(
-                                        widget.productDetails?['name']
-                                                .toString() ??
-                                            '',
+                                        widget.productDetails.name,
                                         style: const TextStyle(
                                           fontSize: 28,
                                           color: mainColor,
@@ -124,7 +120,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                               // ),
 
                               Text(
-                                "Energy Consumption : ${widget.productDetails?['energy_comsumption'] ?? ''}",
+                                "Energy Consumption : ${widget.productDetails.energyConsumption}",
                                 style: const TextStyle(
                                     fontSize: 18,
                                     color: mainColor,
@@ -201,7 +197,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                 width: 10,
                               ),
                               Text(
-                                widget.productDetails?['brand']?['name'] ?? '',
+                                widget.productDetails.brand,
                                 style: const TextStyle(
                                     fontSize: 18,
                                     color: mainColor,
@@ -225,9 +221,9 @@ class _ItemDetailsState extends State<ItemDetails> {
                                 width: 10,
                               ),
                               for (final category
-                                  in widget.productDetails?['category'])
+                                  in widget.productDetails.category)
                                 Text(
-                                  category['name'] ?? '',
+                                  category,
                                   style: const TextStyle(
                                       fontSize: 18,
                                       color: mainColor,
@@ -253,7 +249,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                               Row(
                                 children: [
                                   for (int i = 0;
-                                      i < widget.productDetails?['size'].length;
+                                      i < widget.productDetails.size.length;
                                       i++)
                                     Container(
                                       height: 30,
@@ -274,9 +270,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                             ),
                                           ]),
                                       child: Text(
-                                        widget.productDetails?['size']?[i]
-                                                .toString() ??
-                                            '',
+                                        widget.productDetails.size[i],
                                         style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
@@ -304,7 +298,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                 width: 10,
                               ),
                               Text(
-                                widget.productDetails?['product_code'] ?? '',
+                                widget.productDetails.productCode,
                                 style: const TextStyle(
                                     fontSize: 18,
                                     color: mainColor,
@@ -328,7 +322,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                 width: 10,
                               ),
                               Text(
-                                "${widget.productDetails?['duration_date'] ?? ''} days",
+                                "${widget.productDetails.durationDate.toString()} Months",
                                 style: const TextStyle(
                                     fontSize: 18,
                                     color: mainColor,
@@ -352,7 +346,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                 width: 10,
                               ),
                               Text(
-                                "${widget.productDetails?['insurence_date'] ?? ''} days",
+                                "${widget.productDetails.insurenceDate.toString()} Months",
                                 style: const TextStyle(
                                     fontSize: 18,
                                     color: mainColor,
@@ -376,9 +370,9 @@ class _ItemDetailsState extends State<ItemDetails> {
                                 width: 10,
                               ),
                               for (final business
-                                  in widget.productDetails?['business'])
+                                  in widget.productDetails.business)
                                 Text(
-                                  business['name'] ?? '',
+                                  business,
                                   style: const TextStyle(
                                       fontSize: 18,
                                       color: mainColor,
@@ -387,7 +381,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                             ],
                           ),
                         ),
-                        widget.productDetails?['vendor'] != null
+                        widget.productDetails.vendor != null
                             ? Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 8),
@@ -404,7 +398,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                       width: 10,
                                     ),
                                     Text(
-                                      widget.productDetails?['vendor'] ?? '',
+                                      widget.productDetails.vendor.toString(),
                                       style: const TextStyle(
                                           fontSize: 18,
                                           color: mainColor,
@@ -433,9 +427,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                               Row(
                                 children: [
                                   for (int i = 0;
-                                      i <
-                                          widget.productDetails?['extra_device']
-                                              .length;
+                                      i < widget.productDetails.extra.length;
                                       i++)
                                     Container(
                                       height: 30,
@@ -456,10 +448,8 @@ class _ItemDetailsState extends State<ItemDetails> {
                                             ),
                                           ]),
                                       child: Text(
-                                        widget.productDetails?['extra_device']
-                                                    ?[i]
-                                                .toString() ??
-                                            '',
+                                        widget.productDetails.extra[i]
+                                            .toString(),
                                         style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
@@ -516,7 +506,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           child: Text(
-                            widget.productDetails?['description'] ?? '',
+                            widget.productDetails.description,
                             textAlign: TextAlign.justify,
                             style: const TextStyle(
                               fontSize: 17,
@@ -532,6 +522,6 @@ class _ItemDetailsState extends State<ItemDetails> {
               Text('Here is testing'),
             ],
           )
-        : Text("No Data");
+        : const Text("No Data");
   }
 }

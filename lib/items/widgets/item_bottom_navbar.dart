@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rental_user/global_variables.dart';
 import 'package:rental_user/items/controllers/items_controller.dart';
+import 'package:rental_user/items/models/product_details_model.dart';
 import 'dart:convert';
 
 import 'package:rental_user/items/models/rent_products_model.dart';
 import 'package:rental_user/user/model/user_model.dart';
 
 class ItemBottomNavBar extends StatefulWidget {
-  Map<String, dynamic>? productDetails;
+  final ProductDetails productDetails;
 
   ItemBottomNavBar({super.key, required this.productDetails});
 
@@ -29,8 +30,8 @@ class _ItemBottomNavBarState extends State<ItemBottomNavBar> {
     RentalRequest rentalRequest = RentalRequest(
       products: [
         Product(
-          productId: widget.productDetails!['_id'],
-          rentDuration: widget.productDetails!['duration_date'],
+          productId: widget.productDetails.id,
+          rentDuration: widget.productDetails.durationDate.toString(),
           size: 'medium',
           color: 'white',
           qty: '2',
@@ -61,7 +62,7 @@ class _ItemBottomNavBarState extends State<ItemBottomNavBar> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "\$ ${widget.productDetails?['price'].toString() ?? ''}",
+            "\$ ${widget.productDetails.price.toString()}",
             style: const TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,

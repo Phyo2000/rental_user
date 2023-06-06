@@ -230,8 +230,7 @@ class _ItemDetailsState extends State<RentProductDetails> {
                                   width: 10,
                                 ),
                                 Text(
-                                  widget.productDetails?['product']
-                                          ?['price/M'] ??
+                                  widget.productDetails?['product']?['price'] ??
                                       '',
                                   style: const TextStyle(
                                       fontSize: 18,
