@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:rental_user/cart/controllers/rent_controller.dart';
+import 'package:rental_user/cart/models/rent_data_model.dart';
 import 'package:rental_user/cart/widgets/cart_details.dart';
 import 'package:rental_user/global_variables.dart';
 
@@ -11,28 +12,29 @@ class CartItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    RentDataController _rentDataController = RentDataController();
     return SingleChildScrollView(
       child: Column(
         children: [
           for (final item in items)
-            FutureBuilder<Map<String, dynamic>>(
-              future: requestRentItemDetails(
+            FutureBuilder<RentData>(
+              future: _rentDataController.requestRentItemDetails(
                   context: context, rentId: item['_id'].toString()),
-              builder: (BuildContext context,
-                  AsyncSnapshot<Map<String, dynamic>> snapshot) {
+              builder:
+                  (BuildContext context, AsyncSnapshot<RentData> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  // While waiting for the data to be fetched, you can show a loading indicator or placeholder
+                  // While waiting for data, show a loading indicator or placeholder
                   return const CircularProgressIndicator();
                 } else if (snapshot.hasError) {
                   // If there's an error, error message
                   return Text('Error: ${snapshot.error}');
                 } else if (snapshot.hasData) {
-                  final details = snapshot.data!;
+                  RentData details = snapshot.data!;
                   String? name, imgLink;
                   debugPrint("It is OK here. ${item['_id'].toString()}");
 
-                  name = details['product']['product_name'];
-                  imgLink = details['product']['image'];
+                  name = details.product['product_name'];
+                  imgLink = details.product['image'];
 
                   return InkWell(
                     onTap: () {

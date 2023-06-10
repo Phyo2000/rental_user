@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rental_user/authentication/custom_config/utils.dart';
+import 'package:rental_user/cart/models/rent_data_model.dart';
 import 'package:rental_user/user/model/user_model.dart';
 
 final dio = Dio();
@@ -33,35 +34,34 @@ Future<List<Map<String, dynamic>>> requestRentItemList(
   }
 }
 
-Future<Map<String, dynamic>> requestRentItemDetails(
-    {required BuildContext context, required String rentId}) async {
-  ModelUser modelUser = Provider.of<ModelUser>(context, listen: false);
-  final UserModel user = modelUser.user;
-  final String token = user.token;
+class RentDataController {
+  Future<RentData> requestRentItemDetails(
+      {required BuildContext context, required String rentId}) async {
+    ModelUser modelUser = Provider.of<ModelUser>(context, listen: false);
+    final UserModel user = modelUser.user;
+    final String token = user.token;
 
-  final response = await dio.get(
-    '$mainUrl/rent/detail/$rentId',
-    data: modelUser.toJson(),
-    options: Options(
-      headers: {
-        'Authorization': 'Bearer $token',
-      },
-    ),
-  );
+    final response = await dio.get(
+      '$mainUrl/rent/detail/$rentId',
+      data: modelUser.toJson(),
+      options: Options(
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      ),
+    );
 
-  final responseData = response.data as Map<String, dynamic>;
-  final data = responseData['data'] as Map<String, dynamic>;
-  final product = responseData['product'] as Map<String, dynamic>;
+    final responseData = response.data as Map<String, dynamic>;
+    final data = responseData['data'] as Map<String, dynamic>;
+    final product = responseData['product'] as Map<String, dynamic>;
 
-  debugPrint("####### Rent Item Data : $data #######");
-  debugPrint("####### Rent Item Product : $product #######");
+    debugPrint("####### Rent Item Data : $data #######");
+    debugPrint("####### Rent Item Product : $product #######");
 
-  if (data != null && product != null) {
-    return {
-      'data': data,
-      'product': product,
-    };
-  } else {
-    return {};
+    if (data != null && product != null) {
+      return RentData(data: data, product: product);
+    } else {
+      return RentData(data: data, product: product);
+    }
   }
 }

@@ -2,11 +2,12 @@ import 'package:clippy_flutter/arc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
+import 'package:rental_user/cart/models/rent_data_model.dart';
 import 'package:rental_user/cart/widgets/cart_details_appbar.dart';
 import 'package:rental_user/global_variables.dart';
 
 class RentProductDetails extends StatefulWidget {
-  Map<String, dynamic>? productDetails;
+  final RentData productDetails;
 
   RentProductDetails({super.key, required this.productDetails});
 
@@ -26,8 +27,7 @@ class _ItemDetailsState extends State<RentProductDetails> {
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: Image.network(
-                    widget.productDetails?['product']?['image'].toString() ??
-                        '',
+                    widget.productDetails.product['image'].toString(),
                     height: 300,
                   ),
                 ),
@@ -49,17 +49,15 @@ class _ItemDetailsState extends State<RentProductDetails> {
                                 SizedBox(
                                   height: 32,
                                   width: 350,
-                                  child: widget.productDetails!['product']
-                                                  ['product_name']
+                                  child: widget.productDetails
+                                              .product['product_name']
                                               .toString()
                                               .length >
                                           20
                                       ? Marquee(
-                                          text: widget
-                                                  .productDetails?['product']
-                                                      ['product_name']
-                                                  .toString() ??
-                                              '', // Here is Product Name
+                                          text: widget.productDetails
+                                              .product['product_name']
+                                              .toString(), // Here is Product Name
                                           style: const TextStyle(
                                             fontSize: 28,
                                             color: mainColor,
@@ -80,10 +78,9 @@ class _ItemDetailsState extends State<RentProductDetails> {
                                           decelerationCurve: Curves.easeOut,
                                         )
                                       : Text(
-                                          widget.productDetails?['product']
-                                                      ['product_name']
-                                                  .toString() ??
-                                              '',
+                                          widget.productDetails
+                                              .product['product_name']
+                                              .toString(),
                                           style: const TextStyle(
                                             fontSize: 28,
                                             color: mainColor,
@@ -99,7 +96,7 @@ class _ItemDetailsState extends State<RentProductDetails> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "Vendor name : ${widget.productDetails?['product']['vendor_name'] ?? ''}",
+                                  "Vendor name : ${widget.productDetails.product['vendor_name'] ?? ''}",
                                   style: const TextStyle(
                                       fontSize: 18,
                                       color: mainColor,
@@ -179,9 +176,7 @@ class _ItemDetailsState extends State<RentProductDetails> {
                                   width: 10,
                                 ),
                                 Text(
-                                  widget.productDetails?['product']
-                                          ?['product_code'] ??
-                                      '',
+                                  widget.productDetails.product['product_code'],
                                   style: const TextStyle(
                                       fontSize: 18,
                                       color: mainColor,
@@ -205,8 +200,7 @@ class _ItemDetailsState extends State<RentProductDetails> {
                                   width: 10,
                                 ),
                                 Text(
-                                  widget.productDetails?['product']?['size'] ??
-                                      '',
+                                  widget.productDetails.product['size'] ?? '',
                                   style: const TextStyle(
                                       fontSize: 18,
                                       color: mainColor,
@@ -230,8 +224,7 @@ class _ItemDetailsState extends State<RentProductDetails> {
                                   width: 10,
                                 ),
                                 Text(
-                                  widget.productDetails?['product']?['price'] ??
-                                      '',
+                                  widget.productDetails.product['price'] ?? '',
                                   style: const TextStyle(
                                       fontSize: 18,
                                       color: mainColor,
@@ -255,8 +248,7 @@ class _ItemDetailsState extends State<RentProductDetails> {
                                   width: 10,
                                 ),
                                 Text(
-                                  widget.productDetails?['product']
-                                          ['Quantity'] ??
+                                  widget.productDetails.product['Quantity'] ??
                                       '',
                                   style: const TextStyle(
                                       fontSize: 18,
@@ -281,8 +273,7 @@ class _ItemDetailsState extends State<RentProductDetails> {
                                   width: 10,
                                 ),
                                 Text(
-                                  widget.productDetails?['product']
-                                          ['total_pice'] ??
+                                  widget.productDetails.product['total_pice'] ??
                                       '',
                                   style: const TextStyle(
                                       fontSize: 18,
@@ -307,8 +298,7 @@ class _ItemDetailsState extends State<RentProductDetails> {
                                   width: 10,
                                 ),
                                 Text(
-                                  widget.productDetails?['product']?['color'] ??
-                                      '',
+                                  widget.productDetails.product['color'] ?? '',
                                   style: const TextStyle(
                                       fontSize: 18,
                                       color: mainColor,
@@ -335,7 +325,7 @@ class _ItemDetailsState extends State<RentProductDetails> {
                                   width: 10,
                                 ),
                                 Text(
-                                  widget.productDetails?['data']?['name'] ?? '',
+                                  widget.productDetails.data['name'] ?? '',
                                   style: const TextStyle(
                                       fontSize: 18,
                                       color: mainColor,
@@ -359,8 +349,7 @@ class _ItemDetailsState extends State<RentProductDetails> {
                                   width: 10,
                                 ),
                                 Text(
-                                  widget.productDetails?['data']?['phone'] ??
-                                      '',
+                                  widget.productDetails.data['phone'] ?? '',
                                   style: const TextStyle(
                                       fontSize: 18,
                                       color: mainColor,
@@ -384,8 +373,7 @@ class _ItemDetailsState extends State<RentProductDetails> {
                                   width: 10,
                                 ),
                                 Text(
-                                  widget.productDetails?['data']?['address'] ??
-                                      '',
+                                  widget.productDetails.data['address'] ?? '',
                                   style: const TextStyle(
                                       fontSize: 18,
                                       color: mainColor,

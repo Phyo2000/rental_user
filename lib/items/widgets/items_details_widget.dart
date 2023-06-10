@@ -23,6 +23,9 @@ class ItemDetails extends StatefulWidget {
 
 class _ItemDetailsState extends State<ItemDetails> {
   int quantity = 1;
+  String size = "medium";
+  ValueNotifier<int?> priorityIndex = ValueNotifier(null);
+
   @override
   Widget build(BuildContext context) {
     List<Color> colors = [
@@ -233,7 +236,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Row(
                             children: [
                               const Text(
@@ -243,42 +246,60 @@ class _ItemDetailsState extends State<ItemDetails> {
                                     color: mainColor,
                                     fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               Row(
-                                children: [
-                                  for (int i = 0;
-                                      i < widget.productDetails.size.length;
-                                      i++)
-                                    Container(
-                                      height: 30,
-                                      width: 100,
-                                      alignment: Alignment.center,
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 5),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
-                                              spreadRadius: 2,
-                                              blurRadius: 8,
-                                            ),
-                                          ]),
-                                      child: Text(
-                                        widget.productDetails.size[i],
-                                        style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: mainColor,
-                                        ),
-                                      ),
-                                    ),
-                                ],
+                                children: List.generate(
+                                  widget.productDetails.size.length,
+                                  (index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15),
+                                      child: ValueListenableBuilder(
+                                          valueListenable: priorityIndex,
+                                          builder: (context, priority, _) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                priorityIndex.value = index;
+                                                size = widget
+                                                    .productDetails.size[index];
+                                                print(size);
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  color: priority == index
+                                                      ? Colors.amberAccent
+                                                      : Colors.white,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.grey
+                                                          .withOpacity(0.5),
+                                                      spreadRadius: 2,
+                                                      blurRadius: 8,
+                                                    ),
+                                                  ],
+                                                ),
+                                                width: 100,
+                                                height: 30,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  widget.productDetails
+                                                      .size[index],
+                                                  style: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: mainColor,
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          }),
+                                    );
+                                  },
+                                ),
                               ),
                             ],
                           ),
